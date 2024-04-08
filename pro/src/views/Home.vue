@@ -5,7 +5,7 @@
     </el-aside>
     <el-container>
       <el-header>
-        <strong>VueAdmin后台管理系统</strong>
+        <strong>后台管理系统</strong>
         <div class="header-avatar">
           <el-avatar size="medium" :src="userInfo.avatar"></el-avatar>
           <el-dropdown>

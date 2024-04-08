@@ -43,6 +43,8 @@ import { ref, reactive, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import qs from 'qs';
 import axios from 'axios';
+import store from "@/store";
+import router from "@/router";
 // reactive创建响应式对象,内容改变时组件自动更新
 const loginForm = reactive({
   username: '',
@@ -84,7 +86,7 @@ const submitForm = () => {
         // 假设JWT在响应的data中返回
         const jwt = response.data.data.jwt;
         // 模拟将JWT保存到Vuex状态树中
-        // store.commit("SET_TOKEN", jwt);
+        store.commit("SET_TOKEN", jwt);
         // 为了演示，这里可以暂时使用localStorage模拟
         localStorage.setItem('jwt', jwt);
         router.push("/index");
