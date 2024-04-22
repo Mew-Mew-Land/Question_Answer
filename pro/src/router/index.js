@@ -10,6 +10,7 @@ import store from "../store";
 
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+import home from "@/views/Home.vue";
 
 // 定义路由
 const routes = [
@@ -20,7 +21,7 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/index',
+        path: 'index',
         name: 'Index',
         meta: {
           title: "首页"
@@ -29,7 +30,7 @@ const routes = [
         component: Index
       },
       {
-        path: '/userCenter',
+        path: 'userCenter',
         name: 'UserCenter',
         meta: {
           title: "个人中心"
@@ -37,21 +38,21 @@ const routes = [
         // 当用户访问 /userCenter 时，会动态加载 UserCenter.vue 组件
         component: () => import('@/views/UserCenter.vue')
       },
-      // {
-      // 	path: '/sys/users',
-      // 	name: 'SysUser',
-      // 	component: User
-      // },
-      // {
-      // 	path: '/sys/roles',
-      // 	name: 'SysRole',
-      // 	component: Role
-      // },
-      // {
-      // 	path: '/sys/menus',
-      // 	name: 'SysMenu',
-      // 	component: Menu
-      // },
+      {
+      	path: 'sys/users',
+      	name: 'SysUser',
+      	component: User
+      },
+      {
+      	path: 'sys/roles',
+      	name: 'SysRole',
+      	component: Role
+      },
+      {
+      	path: 'sys/menus',
+      	name: 'SysMenu',
+        component:  () => import('../views/sys/Menu.vue')
+      },
     ]
   },
 
@@ -62,9 +63,29 @@ const routes = [
     component:  () => import('../views/Login.vue')
   },
   {
-    path: '/test',
-    name: 'TEST',
-    component:  () => import('../views/sys/Menu.vue')
+    path: '/testslid',
+    name: '1234',
+    component:  () => import('../views/inc/SideMenu.vue')
+  },
+  {
+    path: '/testhome',
+    name: 'TESThome',
+    component:Home
+  },
+  {
+    path: '/testmenu',
+    name: 'TESTmenu',
+    component:Menu
+  },
+  {
+    path: '/testuser',
+    name: 'TESTuser',
+    component:User
+  },
+  {
+    path: '/testrole',
+    name: 'TESTrole',
+    component:Role
   }
 ];
 
@@ -75,52 +96,59 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL), // 使用 createWebHistory
   routes
 });
+
+
 // router.beforeEach: 这是一个 Vue Router 的导航守卫，用于在路由切换之前执行一些逻辑。在这里，我们检查用户的登录状态和路由权限。
 // to: 这是一个路由对象，表示用户即将访问的路由。
 // from: 这是一个路由对象，表示用户当前所在的路由。
 // next: 这是一个函数，用于控制路由跳转。我们可以调用 next() 来继续路由跳转，或者传递一个新的路由路径来重定向用户。
-router.beforeEach((to, from, next) => {
-  let hasRoute = store.state.menus.hasRoutes;//Vuex存储的状态中获取hasRoutes
-  let token = localStorage.getItem("token");//从本地存储中获取名为"token"的项
 
-  if (to.path === '/login') {next();//如果即将进入的路由是登录页，直接允许这次导航。
-  } else if (!token) {next({ path: '/login' });//如果没有token，即用户未认证，则重定向到登录页}
-else if (token && !hasRoute) {//如果有token但是没有加载路由，则通过API请求获取用户菜单和权限。
-    axios.get("/sys/menu/nav", {
-      headers: {
-        Authorization: token
-      }//使用axios发送GET请求到/sys/menu/nav，带上认证头
-    }).then(res => {//请求成功后处理返回的响应
-      // 拿到menuList
+
+router.beforeEach(async (to, from, next) => {
+  let hasRoute = store.state.menus.hasRoutes;
+  let token = localStorage.getItem("token");
+
+  if (to.path === '/login') {
+    next();
+  } else if (!token) {
+    next({ path: '/login' });
+  } else if (token && !hasRoute) {
+    try {
+      const res = await axios.get("/sys/menu/nav", {
+        headers: {
+          Authorization: token
+        }
+      });
+
+      // 拿到 menuList 和 用户权限
       store.commit("setMenuList", res.data.data.nav);
-
-      // 拿到用户权限
       store.commit("setPermList", res.data.data.authoritys);
 
       // 动态绑定路由
-      res.data.data.nav.forEach(menu => {//遍历每个菜单项
-        if (menu.children) {//如果菜单有子项。
+      res.data.data.nav.forEach(menu => {
+        if (menu.children) {
           menu.children.forEach(e => {
-            // 将菜单项转换为路由配置
-            let route = menuToRoute(e);//实现在下面
-
-            // 把路由添加到路由管理中
+            let route = menuToRoute(e); // 将菜单项转换为路由配置
             if (route) {
-              router.addRoute('Home', route); // 注意：这里的 'Home' 是父路由的名称
+              router.addRoute('Home', route); // 注意：这里的 'Home' 应该是父级路由的名称
             }
           });
         }
       });
 
-      hasRoute = true;//路由加载标志为true
-      store.commit("changeRouteStatus", hasRoute);
-
-      next({ ...to, replace: true }); // 确保路由已添加
-    });
+      // 更新路由加载状态
+      store.commit("changeRouteStatus", true);
+      next({ ...to, replace: true }); // 使用 replace: true 避免重复历史记录
+    } catch (error) {
+      console.error("Error loading menu:", error);
+      next(false); // 出错时停止路由导航
+    }
   } else {
-    next();
+    next(); // 确保在所有情况下调用 next()
   }
 });
+
+
 
 // 导航项转成路由配置对象
 const menuToRoute = (menu) => {

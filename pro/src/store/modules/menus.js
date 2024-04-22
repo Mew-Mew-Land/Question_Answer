@@ -2,7 +2,9 @@
 import { createStore } from 'vuex'
 
 // 使用 createStore 方法来创建一个新的 store 实例
+
 export default createStore({
+
 	// state 提供了一个响应式数据的状态对象
 	state() {
 		return {

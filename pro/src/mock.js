@@ -22,9 +22,8 @@ Mock.mock('/captcha', 'get', () => {
 })
 
 Mock.mock('/login', 'post', (options) => {
-    // 解析请求体，确保你已经引入了qs或者其他能解析POST请求体的库
     const body = JSON.parse(options.body);
-    if (body.username === 'admin' && body.password === 'admin') {
+    if (body.username === '1' && body.password === '1') {
         return {
             code: 200,
             message: '登录成功',
@@ -39,6 +38,8 @@ Mock.mock('/login', 'post', (options) => {
         };
     }
 });
+
+
 Mock.mock('/sys/userInfo', 'get', () => {
 
     Result.data = {

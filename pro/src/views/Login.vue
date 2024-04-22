@@ -74,33 +74,35 @@ const getCaptcha = async () => {
   captchaImg.value = response.data.data.captchaImg;
 };
 
-const submitForm = () => {
-  //对loginFormRef.value实例对象的验证(就是上面设定的rulers规则),结果为validation
-  loginFormRef.value.validate((validation) => {
-    if (validation) {
-      //axios是一个基于Promise的HTTP客户端
-      //axios.post是调用axios来执行一个POST请求的方法。'/login?'是请求的目标URL，问号?表示查询参数的开始。
-      //qs.stringify(loginForm)将一个对象（在这里lo是ginForm对象）转换成一个查询字符串。
-      //then方法是Promise的一部分。axios.post返回一个Promise，这表示某个时候将来它会完成请求,并返回正确的响应或者失败
-      axios.post('/login?' + qs.stringify(loginForm)).then((response) => {
-        // 假设JWT在响应的data中返回
-        const jwt = response.data.data.jwt;
-        // 模拟将JWT保存到Vuex状态树中
-        store.commit("SET_TOKEN", jwt);
-        // 为了演示，这里可以暂时使用localStorage模拟
-        localStorage.setItem('jwt', jwt);
-        router.push("/index");
-      }).catch(() => {
-        getCaptcha();
-        ElMessage.error('登录错误!!');
-      });
+  const submitForm = () => {
+    //对loginFormRef.value实例对象的验证(就是上面设定的rulers规则),结果为validation
+    loginFormRef.value.validate((validation) => {
+      if (validation) {
+        //axios是一个基于Promise的HTTP客户端
+        //axios.post是调用axios来执行一个POST请求的方法。'/login?'是请求的目标URL，问号?表示查询参数的开始。
+        //qs.stringify(loginForm)将一个对象（在这里loginForm对象）转换成一个查询字符串。
+        //then方法是Promise的一部分。axios.post返回一个Promise，这表示某个时候将来它会完成请求,并返回正确的响应或者失败
+        axios.post('/login', loginForm).then((response) => {
+          // 假设JWT在响应的data中返回
+          const jwt = response.data.data.jwt;
+          // 模拟将JWT保存到Vuex状态树中
+          store.commit("SET_TOKEN", jwt);
+          // 为了演示，这里可以暂时使用localStorage模拟
+          localStorage.setItem('jwt', jwt);
 
-    } else {
-      getCaptcha();
-      ElMessage.error('error submit!!');
-    }
-  });
-};
+          router.push("/testhome");
+        }).catch(() => {alert("开始验证失败");
+          getCaptcha();
+          ElMessage.error('登录错误!!');
+        });
+
+      } else {
+        alert("没进入开始验证");
+        getCaptcha();
+        ElMessage.error('error submit!!');
+      }
+    });
+  };
 
 onMounted(() => {
   getCaptcha();
