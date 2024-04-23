@@ -103,45 +103,46 @@ const postCommentDo = () => {
   });
 };
 </script>
+
 <style lang="scss">
 .post-comment-panel {
-  display: flex;
-  padding: 10px;
+  display: flex; // 设置布局为弹性盒模型
+  padding: 10px; // 内边距
   .comment-form {
-    flex: 1;
-    margin-right: 10px;
+    flex: 1; // 弹性布局，占满剩余空间
+    margin-right: 10px; // 右侧外边距
     .el-textarea__inner {
-      height: 60px;
+      height: 60px; // 设置文本输入框的高度
     }
     .insert-img {
-      margin-top: 10px;
-      line-height: normal;
+      margin-top: 10px; // 图片插入区域上边距
+      line-height: normal; // 行高为正常
       .iconfont {
-        margin-top: 3px;
-        font-size: 20px;
-        color: #636262;
+        margin-top: 3px; // 图标顶部外边距
+        font-size: 20px; // 图标字体大小
+        color: #636262; // 图标颜色
       }
       .pre-img {
-        position: relative;
+        position: relative; // 定位方式为相对定位
         .iconfont {
-          cursor: pointer;
-          position: absolute;
-          top: -10px;
-          right: -10px;
-          color: #727272;
+          cursor: pointer; // 鼠标样式为指针
+          position: absolute; // 绝对定位
+          top: -10px; // 顶部偏移
+          right: -10px; // 右侧偏移
+          color: #727272; // 图标颜色
         }
       }
     }
   }
   .send-button {
-    width: 60px;
-    height: 60px;
-    background: var(--mainColor);
-    color: #fff;
-    text-align: center;
-    line-height: 60px;
-    border-radius: 5px;
-    cursor: pointer;
+    width: 60px; // 按钮宽度
+    height: 60px; // 按钮高度
+    background: var(--mainColor); // 背景颜色，使用 CSS 变量
+    color: #fff; // 文字颜色
+    text-align: center; // 文本居中
+    line-height: 60px; // 行高
+    border-radius: 5px; // 边框圆角
+    cursor: pointer; // 鼠标样式为指针
   }
 }
 </style>

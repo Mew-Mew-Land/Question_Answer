@@ -3,7 +3,7 @@
   <el-avatar :size="width" :src="avatarUrl" />
 </template>
 <script setup>
-//defineProps定义的数据自动载入到<template>
+//defineProps定义的数据自动载入到<template>中的定义
 const props = defineProps({
   width: {
     type: Number,
