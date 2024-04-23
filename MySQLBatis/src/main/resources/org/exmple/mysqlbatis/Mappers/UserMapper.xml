@@ -7,9 +7,9 @@
         select * from users
     </sql>
     <insert id="createUserAccount">
-        insert into users(id,username,age) values
+        insert into users(username,password,accountName) values
         <foreach collection="users" item="user" separator=",">
-            (#{user.id},#{user.username},#{user.age})
+            (#{user.username},#{user.password},#{user.accountName})
         </foreach>
      </insert>
 
