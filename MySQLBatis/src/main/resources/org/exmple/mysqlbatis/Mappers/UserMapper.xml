@@ -3,5 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.exmple.mysqlbatis.Mappers.UserMapper">
+    <sql id="UserSearch">
+        select * from users
+    </sql>
+    <insert id="createUserAccount">
+        insert into users(id,username,age) values
+        <foreach collection="users" item="user" separator=",">
+            (#{user.id},#{user.username},#{user.age})
+        </foreach>
+     </insert>
+
+    <delete id="deleteUser">
+        delete from users where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="userList" resultType="org.exmple.mysqlbatis.entity.User">
+        <include refid="UserSearch">
+        </include>
+    </select>
 
 </mapper>

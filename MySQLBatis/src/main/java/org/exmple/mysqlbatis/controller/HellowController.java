@@ -17,6 +17,6 @@ public class HellowController {
     @RequestMapping("/hello")
     public List<User> hello(){
         System.out.println("wwww");
-       return userMapper.list();
+       return userMapper.userList();
     }
 }

@@ -1,40 +1,20 @@
 package org.exmple.mysqlbatis.entity;
 
+import lombok.Data;
+
+@Data
 public class User {
     private int id;
     private String username;
-    private int age;
+    private String password;
+    private String accountName;
+    private int avatar;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public User(int id, String username, String password, String accountName, int avatar) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
         this.username = username;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", age=" + age +
-                '}';
+        this.password = password;
+        this.accountName = accountName;
+        this.avatar = avatar;
     }
 }

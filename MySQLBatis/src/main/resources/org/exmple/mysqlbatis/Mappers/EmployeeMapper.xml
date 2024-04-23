@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.exmple.mysqlbatis.Mappers.EmployeeMapper">
+    <sql id="AllAttribute">select * from employee</sql>
+
+    <select id="employeeList" resultType="org.exmple.mysqlbatis.entity.Employee">
+        <include refid="AllAttribute">
+        </include>
+    </select>
+
+    <select id="searchEmployee" resultType="org.exmple.mysqlbatis.entity.Employee">
+        <include refid="AllAttribute">
+        </include>
+        <where>
+            <if test="ID !=null">ID=#{ID}</if>
+            <if test="name !=null">and name like concat('%',#{name},'%')</if>
+            <if test="gender!= null">and gender=#{gender}</if>
+            <if test="job!=null">and job=#{job}</if>
+        </where>
+    </select>
+</mapper>
