@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 @Slf4j
-@WebFilter(urlPatterns ="/*")//拦截所有
+//@WebFilter(urlPatterns ="/*")//拦截所有
 public class DemoFilter implements Filter{
 
     @Override

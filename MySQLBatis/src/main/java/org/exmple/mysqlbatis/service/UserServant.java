@@ -2,6 +2,7 @@ package org.exmple.mysqlbatis.service;
 
 import org.exmple.mysqlbatis.Mappers.UserMapper;
 import org.exmple.mysqlbatis.entity.User;
+import org.exmple.mysqlbatis.exception.AccountException;
 import org.exmple.mysqlbatis.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,15 @@ public class UserServant implements UserService{
         claim.put("accountName",user.getAccountName());
         claim.put("avatar",user.getAvatar());
         return TokenUtil.genAccessToken(claim);
+    }
+    @Override
+    public boolean register(User user){
+        try{
+            usermapper.Insert(user);
+        }catch(AccountException e){
+            e.toString();
+            return false;
+        }
+        return true;
     }
 }

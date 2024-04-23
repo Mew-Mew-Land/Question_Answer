@@ -16,7 +16,7 @@ public class HellowController {
     UserMapper userMapper;
     @RequestMapping("/hello")
     public List<User> hello(){
-        System.out.println("wwww");
+        System.out.println("成功返回数据");
        return userMapper.userList();
     }
 }

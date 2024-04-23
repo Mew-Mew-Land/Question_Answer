@@ -24,5 +24,4 @@
         <include refid="UserSearch">
         </include>
     </select>
-
 </mapper>

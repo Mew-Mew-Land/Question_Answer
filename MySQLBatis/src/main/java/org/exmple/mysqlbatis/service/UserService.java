@@ -7,4 +7,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface UserService {
     User login(User user);
     String createToken(User user);
+    boolean register(User user);
 }
