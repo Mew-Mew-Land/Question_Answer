@@ -1,4 +1,8 @@
 <template>
+<!--  :model-value用于控制对话框的显示和隐藏状态。-->
+<!--  :title 属性用于设置对话框的标题内容。-->
+<!--  width 属性用于设置对话框的宽度。-->
+<!--  :before-close 是一个事件属性，用于在对话框关闭之前执行特定的逻辑。-->
   <el-dialog
     :model-value="store.showLogin"
     :title="dialogConfig.title"
@@ -12,7 +16,10 @@
         label-width="auto"
         ref="formDataRef"
       >
+<!--        prop 属性用于设置表单项的字段名，用于在表单校验时确定校验规则和获取表单数据-->
+<!--        注册登录两个页面公共部分:账号/密码-->
         <el-form-item label="账号" prop="account">
+<!--          placeholder 属性用于设置输入框的占位符文本-->
           <el-input placeholder="请输入账号" v-model="formData.account" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -23,11 +30,13 @@
           />
         </el-form-item>
 
+
         <!-- 确认密码 -->
+<!--        根据opType确定当前是属于登录还是注册-->
         <el-form-item
           label="确认密码"
           prop="confirmPassword"
-          v-if="opType !== 0"
+          v-if="opType == 1"
         >
           <el-input
             type="password"
@@ -44,21 +53,29 @@
         <el-form-item label="昵称" prop="nickName" v-if="opType == 1">
           <el-input placeholder="请输入昵称" v-model="formData.nickName" />
         </el-form-item>
+
         <!-- <el-form-item label="验证码" prop="checkCode">
           <el-input placeholder="请输入验证码" v-model="form.checkCode" />
         </el-form-item> -->
+
         <el-form-item>
           <!-- <div class="remember-panel" v-if="opType == 0">
             <el-checkbox v-model="formData.rememberMe">记住我</el-checkbox>
           </div> -->
           <div class="no-account" v-if="opType == 0">
-            <span class="a-link" @click="showPanel(1)">没有帐号</span>
+<!--            <span class="a-link" @click="showPanel(1)">注册</span>-->
+            <el-button type="primary" style="background-color: var(--mainColor)"
+                       class="a-link" @click="showPanel(1)">注册账号</el-button>
           </div>
-          <div class="no-account" v-if="opType == 1">
-            <span class="a-link" @click="showPanel(0)">已有帐号</span>
+          <div class="no-account" v-if="opType == 1" >
+<!--            <span class="a-link" @click="showPanel(0)">返回登录</span>-->
+            <el-button type="primary" style="background-color: var(--mainColor)"
+                       class="a-link" @click="showPanel(0)">返回登录</el-button>
           </div>
           <div class="no-account" v-if="opType == 2">
-            <span class="a-link" @click="showPanel(0)">返回登录</span>
+<!--            <span class="a-link" @click="showPanel(0)">返回登录</span>-->
+            <el-button type="primary" style="background-color: var(--mainColor)"
+                       class="a-link" @click="showPanel(0)">返回登录</el-button>
           </div>
         </el-form-item>
         <el-form-item>
@@ -88,6 +105,7 @@
         </el-form-item>
       </el-form>
     </div>
+
     <template #footer> </template>
   </el-dialog>
 </template>
@@ -99,7 +117,7 @@ import { useMainStore } from "../stores/index";
 import { auth } from "../utils/api.utils";
 const { proxy } = getCurrentInstance();
 const store = useMainStore();
-
+//响应式对象,改变后模板里也改变
 const dialogConfig = reactive({
   title: "登录",
 });
@@ -110,6 +128,7 @@ const showDialog = () => {
 defineExpose({
   showDialog,
 });
+
 // 表单数据
 const formData = reactive({
   // account: "",
@@ -158,6 +177,9 @@ const login = () => {
       proxy.Message.warning("请输入内容！");
       return;
     }
+    // 向服务器进行请求,
+    //     登录接口的 URL 地址为 "/auth/login
+    // result 变量将会接收请求的返回值。
     let result = await proxy.Request({
       url: auth.login,
       params: {
@@ -169,20 +191,25 @@ const login = () => {
         proxy.Message.error("登录失败");
       },
     });
-    if (!result) return;
-    result.data.userInfo.createTime = proxy.TransformIsoDate(
-      result.data.userInfo.createTime
-    );
-    result.data.userInfo.updateTime = proxy.TransformIsoDate(
-      result.data.userInfo.updateTime
-    );
 
+    if (!result) return;
+
+    // 对返回的用户信息进行处理，转换 ISO 格式的时间为可读格式
+    result.data.userInfo.createTime = proxy.TransformIsoDate(result.data.userInfo.createTime);
+    result.data.userInfo.updateTime = proxy.TransformIsoDate(result.data.userInfo.updateTime);
+
+    // 将用户信息和 token 存储到 localStorage 中
     localStorage.setItem("userInfo", JSON.stringify(result.data.userInfo));
     localStorage.setItem("token", result.data.token);
-    proxy.Message.success("登陆成功");
+
+    // 显示登录成功的提示信息
+    proxy.Message.success("登录成功");
+
+    // 隐藏登录窗口，更新登录状态和用户信息
     store.showLogin = false;
     store.loginUserInfo = result.data.userInfo;
-    // window.location.reload();
+
+    // 清空表单数据
     restForm();
   });
 

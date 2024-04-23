@@ -197,7 +197,7 @@ export class QuestionService {
     });
     const board = await this.boardService.findBoardById(boardId);
 
-    for (let key in updateFaqDto) {
+    for (const key in updateFaqDto) {
       if (key !== 'questionId' && key !== 'boardId') {
         questionToUpdate[key] = updateFaqDto[key];
       }
@@ -247,5 +247,4 @@ export class QuestionService {
   }
 
   // 修改问题状态
-
 }
