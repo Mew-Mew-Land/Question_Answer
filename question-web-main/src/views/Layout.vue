@@ -143,15 +143,15 @@
 </template>
 
 <script setup>
-import LoginReg from "../components/LoginReg.vue";
-import { ref, watch, getCurrentInstance, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useMainStore } from "../stores/index";
-import { board } from "../utils/api.utils";
-const { proxy } = getCurrentInstance();
-const route = useRoute();
-const router = useRouter();
-const store = useMainStore();
+  import LoginReg from "../components/LoginReg.vue";
+  import { ref, watch, getCurrentInstance, onMounted } from "vue";
+  import { useRoute, useRouter } from "vue-router";
+  import { useMainStore } from "../stores/index";
+  import { board } from "../utils/api.utils";
+  const { proxy } = getCurrentInstance();
+  const route = useRoute();
+  const router = useRouter();
+  const store = useMainStore();
 
 const logout = () => {
   proxy.Confirm("确认退出？", () => {
