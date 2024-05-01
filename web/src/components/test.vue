@@ -16,11 +16,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus';
 import { ElMessage } from 'element-plus';
-import axios from 'axios';
-
+import { ref, reactive, getCurrentInstance } from "vue";
+const { proxy } = getCurrentInstance();
 
 
 const ruleForm = ref({
@@ -45,22 +44,30 @@ const login = () => {
 
 const mockLogin = async () => {
   try {
-    const response = await axios.post('/api/login', {
-      username: ruleForm.value.username,
-      password: ruleForm.value.password
+    const response = await proxy.Request({
+      url: '/api/login',
+      params: {
+        username: ruleForm.username,
+        password: ruleForm.password,
+      },
     });
-    // 检查状态码来决定是否登录成功
-    if (response.data.status === 200) {
-      ElMessage.success('登录成功');
-      // 例如：router.push('/home');
+    if (response  && response.status === 200) {
+      proxy.Message.success("登录成功");
+      // 登录成功后的操作，例如跳转到首页
+      // router.push('/home');
     } else {
-      ElMessage.error(response.data.message);
+      proxy.Message.error(response.data.message || "登录失败");
     }
   } catch (error) {
-    // 通常在 catch 中处理网络错误，而不是登录逻辑错误
-    ElMessage.error('网络错误：' + error.message);
+    if (error && error.response) {
+      proxy.Message.error('登录失败：' + error.response.data.message);
+    } else {
+      proxy.Message.error('网络错误：' + error.message);
+    }
   }
 };
+
+
 
 
 </script>

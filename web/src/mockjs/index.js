@@ -1,10 +1,17 @@
 // 引入Mock.js
 import Mock from 'mockjs';
 
+console.log('在Mock.mock之前');
 // 模拟登录API
-Mock.mock('/api/login', 'post', (options) => {
-    // 解析请求体中的数据
-    const { username, password } = JSON.parse(options.body);
+
+
+Mock.mock('http://localhost:3000/api/login', 'post', (options) => {
+    // 获取请求体中的 FormData 对象
+    const formData = options.body;
+
+    // 从 FormData 对象中获取字段值
+    const username = formData.get('username');
+    const password = formData.get('password');
 
     // 检查用户名和密码是否正确
     if (username === '111' && password === '111') {

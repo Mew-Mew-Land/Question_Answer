@@ -184,7 +184,7 @@ const login = () => {
     let result = await proxy.Request({
       url: auth.login,
       params: {
-        username: formData.account,
+        username: formData.account,   
         password: formData.password,
       },
       dataType: "json",
