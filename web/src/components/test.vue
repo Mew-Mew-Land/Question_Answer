@@ -23,8 +23,8 @@ const { proxy } = getCurrentInstance();
 
 
 const ruleForm = ref({
-  username: '',
-  password: ''
+  username: '111',
+  password: '111'
 });
 
 const rules = ref({
@@ -47,11 +47,12 @@ const mockLogin = async () => {
     const response = await proxy.Request({
       url: '/api/login',
       params: {
-        username: ruleForm.username,
-        password: ruleForm.password,
+        username: ruleForm.value.username,
+        password: ruleForm.value.password,
       },
     });
-    if (response  && response.status === 200) {
+    console.log(response);
+    if (response.data  && response.data.status === 200) {
       proxy.Message.success("登录成功");
       // 登录成功后的操作，例如跳转到首页
       // router.push('/home');

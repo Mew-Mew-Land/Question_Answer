@@ -6,15 +6,11 @@ console.log('在Mock.mock之前');
 
 
 Mock.mock('http://localhost:3000/api/login', 'post', (options) => {
-    // 获取请求体中的 FormData 对象
-    const formData = options.body;
-
-    // 从 FormData 对象中获取字段值
-    const username = formData.get('username');
-    const password = formData.get('password');
+    const { username, password } = JSON.parse(options.body);
 
     // 检查用户名和密码是否正确
     if (username === '111' && password === '111') {
+        console.log('mock成功');
         return {
             status: 200,
             message: '登录成功',
@@ -23,6 +19,7 @@ Mock.mock('http://localhost:3000/api/login', 'post', (options) => {
             }
         };
     } else {
+        console.log('mock失败');
         return {
             status: 401,
             message: '用户名或密码错误'
