@@ -1,5 +1,5 @@
-import Mock from 'mockjs';
-import "./mockjs/index";
+// import Mock from 'mockjs';
+// import "./mockjs/index";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";

@@ -6,7 +6,7 @@ import Message from "./Message.utils";
 const contentTypeJson = "application/json";
 
 // 开发环境的基础 URL，用于本地或测试环境的数据交互。
-const devUrl = "http://localhost:3000";
+const devUrl = "http://192.168.158.91:8080";
 
 // 创建 axios 实例，并配置基础 URL 和请求超时时间。
 const instance = axios.create({
@@ -124,13 +124,24 @@ console.log(formData);
     //Authorization: token, // 设置授权头部
   };
 
+  function formDataToObject(formData) {
+    const object = {};
+    for (const [key, value] of formData.entries()) {
+      object[key] = value;
+    }
+    return object;
+  }
+
   try {
     // 使用 axios 实例发送 POST 请求
+    console.log(url);
+    console.log(formDataToObject(formData));
     return await instance.post(url, formData ,{headers});
   } catch (error) {
     // 错误处理：如果配置了显示错误消息，则显示错误
     if (error.showError) {
-      Message.error(error.msg);
+      console.log()
+      // Message.error(error.msg);
     }
     // 出现错误时返回 null
     return null;

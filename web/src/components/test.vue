@@ -45,19 +45,20 @@ const login = () => {
 const mockLogin = async () => {
   try {
     const response = await proxy.Request({
-      url: '/api/login',
+      url: 'account/login',
       params: {
         username: ruleForm.value.username,
         password: ruleForm.value.password,
       },
     });
     console.log(response);
-    if (response.data  && response.data.status === 200) {
-      proxy.Message.success("登录成功");
+    if (response.data  && response.data.code === 1) {
+      proxy.Message.success("登录成功")
       // 登录成功后的操作，例如跳转到首页
+      console.log(response.data.data)
       // router.push('/home');
     } else {
-      proxy.Message.error(response.data.message || "登录失败");
+      proxy.Message.error(response.data.msg || "登录失败");
     }
   } catch (error) {
     if (error && error.response) {

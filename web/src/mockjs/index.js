@@ -1,5 +1,5 @@
 // 引入Mock.js
-import Mock from 'mockjs';
+//import Mock from 'mockjs';
 
 console.log('在Mock.mock之前');
 // 模拟登录API

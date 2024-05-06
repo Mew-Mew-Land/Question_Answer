@@ -116,6 +116,8 @@
     router.push(`/search/${input.value}`);
     input.value = "";
   };
+
+
   </script>
 
   <style lang="scss" scoped>
