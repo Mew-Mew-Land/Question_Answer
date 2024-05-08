@@ -4,11 +4,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/testQuestionList",
-      name: "所有问题",
-      component: () => import("@/views/questionViews/QuestionListItem.vue"),
-    },
-    {
       // Vue--Router--嵌套路由(children)的用法https://blog.csdn.net/feiying0canglang/article/details/126196561
       path: "/",
       name: "Layout",
