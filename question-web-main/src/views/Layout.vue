@@ -4,12 +4,12 @@
     <div class="header-container">
       <div class="header-body container-body">
         <div class="logo">
-          <img src="../icon/logo.png" alt="" srcset="" />
+          <img src="@/icon/logo.png" alt="" srcset="" />
         </div>
         <div class="navbar">
           <!-- 板块 -->
           <div class="board">
-            <RouterLink to="/" class="nav-link">问答</RouterLink>
+            <RouterLink to="/" class="nav-link">知拾</RouterLink>
             <!-- <RouterLink to="/article" class="nav-link">文章</RouterLink> -->
           </div>
           <div class="nav-right">
@@ -37,7 +37,7 @@
                 v-if="!userInfo"
                 type="primary"
                 class="theme-color"
-                style="background-color: var(--mainColor)"
+
                 @click="loginAndRegister()"
                 >注册登录</el-button
               >
@@ -47,24 +47,24 @@
                     type="primary"
                     style="background-color: var(--mainColor)"
                   >
-                    发布
+                    提问
                     <span class="iconfont icon-xialacaidan"></span>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
                       <el-dropdown-item @click="newPost()"
-                        >提问题</el-dropdown-item
+                        >输入问题</el-dropdown-item
                       >
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
                 <!-- 消息图标 -->
-                <RouterLink
-                  to="/userMessage"
-                  style="text-decoration: none; color: var(--mainColor)"
-                >
-                  <span class="iconfont icon-xiaoxi"></span>
-                </RouterLink>
+<!--                <RouterLink-->
+<!--                  to="/userMessage"-->
+<!--                  style="text-decoration: none; color: var(&#45;&#45;mainColor)"-->
+<!--                >-->
+<!--                  <span class="iconfont icon-xiaoxi"></span>-->
+<!--                </RouterLink>-->
 
                 <!-- 头像 -->
                 <el-dropdown>
@@ -107,7 +107,7 @@
       </div>
     </div>
 
-    <div class="category-tags-container container-body" v-if="isHome">
+    <div class="category-tags-container " v-if="isHome">
       <span class="categories-list">
         <span
 
@@ -281,8 +281,14 @@ watch(
         margin-left: 20px;
         .board {
           display: flex;
-          color: var(--mainText);
+          color: black;
+          font-weight: bold;
+          font-family: "Arial Black", Gadget, sans-serif;
+          font-size: 24px;
+          font-color: black;
         }
+
+
         .nav-right {
           display: flex;
           .search {
@@ -294,7 +300,7 @@ watch(
           }
           .user-operation {
             width: 200px;
-            font-size: 0.5em;
+            font-size: 1em;
             .theme-color {
               margin-left: 20px;
             }
@@ -314,6 +320,15 @@ watch(
 
   .category-tags-container {
     overflow: auto;
+    margin: 0 auto;
+    border: 1px solid;
+    border-image: linear-gradient(to right, #004fc4, #ffffff) 1;
+    border-image-slice: 1;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .categories-list {
       align-items: center;
       display: flex;
@@ -327,18 +342,24 @@ watch(
         margin: 0 6px;
         padding: 3px 14px;
         word-break: keep-all;
+        align-items: center;
       }
+
       .categories-active {
         background-color: #004fc4;
-        border-radius: 3px;
+        border-radius: 20px; /* 修改为20px的圆角 */
         color: #fff;
         font-weight: 700;
+        padding: 3px 14px;
       }
     }
   }
 }
 .body-content {
-  margin-top: 20px;
+  margin-top: 0px;
+  background-image: url("@/icon/OIP.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .navbar-m {
   display: none;
