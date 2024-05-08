@@ -15,7 +15,20 @@ const router = createRouter({
       // Vue--Router--嵌套路由(children)的用法https://blog.csdn.net/feiying0canglang/article/details/126196561
       path: "/",
       name: "主页",
-      component: () => import("@/views/Main.vue"),    }
+      component: () => import("@/views/Main.vue"),
+
+    },
+    {
+      path: "/newPost/",
+      name: "发布文章或问题",
+      component: () => import("@/views/EditPost.vue"),
+    },
+    {
+      path: "/editPost/:questionId",
+      name: "编辑文章或问题",
+      component: () => import("@/views/EditPost.vue"),
+    }
+
     //   children: [
     //     {
     //       path: "/",
