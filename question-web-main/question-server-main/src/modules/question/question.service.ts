@@ -29,7 +29,7 @@ export class QuestionService {
     'question.answerCount',
     'question.isSolve',
     'user.userId',
-    'user.nickName',
+  //  'user.nickName',
     'board.boardId',
     'board.boardName',
   ];
@@ -45,7 +45,7 @@ export class QuestionService {
     'question.answerCount',
     'question.isSolve',
     'user.userId',
-    'user.nickName',
+   // 'user.nickName',
     'board.boardId',
     'board.boardName',
   ];
@@ -184,6 +184,7 @@ export class QuestionService {
     question.user = user;
     question.board = board;
     const result = await this.questionRepository.save(question);
+    console.log(result);
     return {
       result,
     };

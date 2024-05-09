@@ -46,7 +46,7 @@
 
     <div class="reply-list">
       <div class="user-reply">
-        前端搬运工：这需求不是求并集呢，而是去掉重复的数据
+
       </div>
       <div class="reply-action">
         <span>回复</span>

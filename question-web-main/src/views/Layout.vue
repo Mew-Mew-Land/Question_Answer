@@ -4,7 +4,7 @@
     <div class="header-container">
       <div class="header-body container-body">
         <div class="logo">
-          <img src="@/icon/logo.png" alt="" srcset="" />
+          <img src="@/icon/9fcef5305e65ab4288ff910a7fbb1696.png" alt="" srcset="" />
         </div>
         <div class="navbar">
           <!-- 板块 -->

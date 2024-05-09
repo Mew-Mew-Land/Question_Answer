@@ -177,7 +177,7 @@ const postHandler = () => {
     });
     if (!result) return;
     proxy.Message.success("发布成功");
-    router.push("/faqDetail/" + result.data.result.questionId);
+    await router.push("/faqDetail/" + result.data.result.questionId);
   });
 };
 

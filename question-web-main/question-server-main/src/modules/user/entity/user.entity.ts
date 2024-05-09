@@ -32,10 +32,11 @@ export class User {
   @Column({ unique: true })
   email: string;
   // 用户简介
-  @Column({ default: '此用户还没有填写简介', length: 20 })
+  @Column({ default: '你所热爱的,就是你的生活', length: 20 })
+
   introduction: string;
   // 城市
-  @Column({ default: '未知' })
+  @Column({ default: '陈瑞' })
   city: string;
   //   创建时间
   @CreateDateColumn()

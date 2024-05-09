@@ -63,7 +63,9 @@ const props = defineProps({
 .faq-list-item {
   display: flex;
   padding: 0.8em;
-  background-color: #ffffff;
+  background-image: url("@/icon/花纹.png");
+  background-size: cover;
+
   border-top: 1px var(--el-border-color) var(--el-border-style);
   .num-tips-container {
     display: flex;

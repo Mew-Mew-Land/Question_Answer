@@ -3,9 +3,9 @@
     <!-- 问题列表与右侧公告栏 -->
     <div class="faq-main">
       <el-tabs v-model="activeTab" class="faq-header" @tab-change="changeTab">
-        <el-tab-pane label="全部" name=""></el-tab-pane>
-        <el-tab-pane label="未解决" name="0"></el-tab-pane>
-        <el-tab-pane label="已解决" name="1"></el-tab-pane>
+        <el-tab-pane label="按发布时间" name=""></el-tab-pane>
+        <el-tab-pane label="按浏览次数" name="0"></el-tab-pane>
+        <el-tab-pane label="按回答数量" name="1"></el-tab-pane>
       </el-tabs>
 
       <el-skeleton v-if="!state" :rows="5" animated />
