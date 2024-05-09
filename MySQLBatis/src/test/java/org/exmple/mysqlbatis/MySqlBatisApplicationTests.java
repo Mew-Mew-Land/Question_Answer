@@ -1,31 +1,42 @@
 package org.exmple.mysqlbatis;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.exmple.mysqlbatis.Mappers.EmployeeMapper;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.exmple.mysqlbatis.Mappers.QuestionMapper;
 import org.exmple.mysqlbatis.Mappers.UserMapper;
-import org.exmple.mysqlbatis.utils.TokenUtil;
+import org.exmple.mysqlbatis.entity.Question;
+import org.exmple.mysqlbatis.entity.User;
+import org.exmple.mysqlbatis.service.QuestionServant;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import redis.clients.jedis.Jedis;
 
-import java.time.Instant;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @SpringBootTest
 class MySqlBatisApplicationTests {
     @Autowired
-    UserMapper userMapper;
+    QuestionMapper questionMapper;
     @Autowired
-    EmployeeMapper employeeMapper;
+    QuestionServant questionServant;
+    @Autowired
+    UserMapper userMapper;
     public static final int ACCESS_EXPIRE = 60;
 
     @Test
    public void testUser() {
+        User user=new User();
+        user.setUsername("jane_smith");
+        user.setPassword("password2");
+        User a= userMapper.getByUsernameAndPassword(user);
+        System.out.println(a.toString());
     }
     @Test
     public void JwtTest(){
@@ -34,5 +45,28 @@ class MySqlBatisApplicationTests {
         Jws<Claims> a=TokenUtil.parseClaim(aaa);
         System.out.println(a);*/
     }
-
+    @Test
+    public void redisTest(){
+        try {
+            Jedis jedis = new Jedis("localhost", 6379);
+            jedis.auth("123456");
+            String pingResponse = jedis.ping();
+            System.out.println("Successfully connected to Redis. Ping response: " + pingResponse);
+            jedis.close();
+        } catch (Exception e) {
+            System.out.println("Failed to connect to Redis: " + e.getMessage());
+        }
+    }
+    @Test
+    public void insertQuestion(){
+        Question a=new Question();
+        a.setQuestion("sdxwd11");
+        a.setClassification("ssd32wa");
+        a.setUserID(1);
+        a.setUpdateTime(LocalDate.now());
+        questionMapper.insertQuestion(a);
+        System.out.println(JSON.toJSONString((a), SerializerFeature.UseISO8601DateFormat));
+       /* Question res=questionServant.searchByID(8);
+        System.out.println(JSON.toJSONString((res), SerializerFeature.UseISO8601DateFormat));*/
+    }
 }

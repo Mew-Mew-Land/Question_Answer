@@ -17,4 +17,8 @@ public class User {
         this.accountName = accountName;
         this.avatar = avatar;
     }
+
+    public User() {
+
+    }
 }

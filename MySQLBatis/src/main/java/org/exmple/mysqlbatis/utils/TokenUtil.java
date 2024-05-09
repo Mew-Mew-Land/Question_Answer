@@ -5,6 +5,9 @@ import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
+import org.exmple.mysqlbatis.entity.User;
+import org.springframework.stereotype.Component;
+
 import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
@@ -12,8 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 public class TokenUtil {
-    public static final int ACCESS_EXPIRE = 60;
+    public static final int ACCESS_EXPIRE = 60*60;
     /* *
      * 加密算法
      */
@@ -89,7 +93,16 @@ public class TokenUtil {
         return parseClaim(token).getHeader();
     }
 
-    public static Claims parsePayload(String token) {
-        return parseClaim(token).getPayload();
+    public static User parsePayloadWithUser(String token) {
+       Claims claim = parseClaim(token).getPayload();
+       int id=(int)claim.get("id");
+       String username=(String)claim.get("username");
+       String accountName=(String)claim.get("accountName");
+       int avatar=(int)claim.get("avatar");
+        User user=new User();
+        user.setUsername(username);
+        user.setAccountName(username);
+        user.setAvatar(avatar);
+        return user;
     }
 }

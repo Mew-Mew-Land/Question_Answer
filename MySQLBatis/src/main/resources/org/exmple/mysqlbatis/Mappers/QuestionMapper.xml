@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.exmple.mysqlbatis.Mappers.QuestionMapper">
+    <sql id="QuestionSearch">
+        select ID, question, classification, answerNum, isSolved from question
+    </sql>
+    <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
+        insert into question(classification,question,UserID,answerNum) values(
+        <if test="classification!=null">
+            #{classification},
+        </if>
+        #{question},#{UserID}
+        <if test="answerNum!=null">
+            ,#{answerNum}
+        </if>
+        );
+    </insert>
+    <select id="getByQuesID" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <where>
+            ID=#{id}
+        </where>
+    </select>
+    <select id="getByUserID" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch"> 
+        </include>
+        <where>
+            UserID=#{id}
+        </where>
+    </select>
+    <select id="getByQuesIDInBatch" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <foreach collection="Ids" item="id" separator="," open="(" close=")">
+            <where>
+                ID=#{id}
+            </where>
+        </foreach>
+    </select>
+</mapper>

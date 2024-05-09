@@ -6,10 +6,10 @@ import java.util.List;
 @Data
 public class PageBean<E> {
     private int amount;
-    private List<E> rows;
+    private List<E> items;
 
-    public PageBean(int amount, List<E> rows) {
+    public PageBean(int amount, List<E> items) {
         this.amount = amount;
-        this.rows = rows;
+        this.items = items;
     }
 }

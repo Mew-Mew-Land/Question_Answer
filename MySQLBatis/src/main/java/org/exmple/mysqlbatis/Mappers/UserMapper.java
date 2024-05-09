@@ -16,7 +16,7 @@ public interface UserMapper {
 
 
      //通过账号密码查找
-     @Select("select * from users where username=#{username} and password=#{password}")
+     @Select("select id, username, AccountName, avatar from users where username=#{username} and password=#{password}")
      User getByUsernameAndPassword(User user);
 
      //批量创建user
@@ -27,4 +27,7 @@ public interface UserMapper {
      void Insert(User user)throws AccountException;
      //批量删除
      void deleteUser(List<Integer> ids);
+     //
+     @Select("select AccountName from users where AccountName=#{accountname}")
+     User getByAccountName(User user);
 }

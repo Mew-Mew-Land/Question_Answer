@@ -1,5 +1,4 @@
 package org.exmple.mysqlbatis.config;
-
 import org.exmple.mysqlbatis.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

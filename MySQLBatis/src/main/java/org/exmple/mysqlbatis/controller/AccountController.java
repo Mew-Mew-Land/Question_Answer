@@ -6,14 +6,15 @@ import org.exmple.mysqlbatis.service.UserServant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @Slf4j
+@CrossOrigin(origins="*")
 @RestController
 public class AccountController {
     @Autowired
     UserServant userservant;
     @PostMapping("/account/login")
     public Result login(@RequestBody User user){
-        log.info("用户登录:{}",user);
         User aa=userservant.login(user);
+        log.info("用户登录:{}",aa);
         if(aa!=null){
             return Result.success(userservant.createToken(aa));
         }else return Result.error("账号或密码错误");

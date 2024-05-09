@@ -29,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }catch(Exception e){
             e.printStackTrace();
             log.info("解析令牌失败");
-            Result re = Result.error("令牌解析失败");
+            Result re = Result.error("登录已经失效，请重新登录");
             String no_login=JSONObject.toJSONString(re);
             response.getWriter().write(no_login);
             return false;
