@@ -65,6 +65,7 @@ const props = defineProps({
   padding: 0.8em;
   background-image: url("@/icon/花纹.png");
   background-size: cover;
+  margin-bottom: 10px;
 
   border-top: 1px var(--el-border-color) var(--el-border-style);
   .num-tips-container {
@@ -76,6 +77,12 @@ const props = defineProps({
       display: flex;
       text-align: center;
       padding: 8px;
+      color: #fff;
+      background-color:#87CEFA;
+      border: 2px solid #000;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px #888;
+      margin-right: 10px;
     }
     .answered {
       border: 1.8px var(--mainColor) solid;
@@ -92,8 +99,10 @@ const props = defineProps({
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
+    margin-bottom: 10px;
 
-    //   margin-left: 10px;
+
+       margin-left: 10px;
     .title {
     }
     .userInfo {
