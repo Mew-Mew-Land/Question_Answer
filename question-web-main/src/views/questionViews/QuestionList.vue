@@ -49,6 +49,51 @@
 <!--        </el-card>-->
 <!--      </div>-->
 <!--    </div>-->
+    <div class="faq-side">
+      <!-- 创作中心区域 -->
+      <el-card class="box-card" shadow="never">
+        <template #header>
+          <div class="clearfix">
+            <span class="card-header">创作中心</span>
+          </div>
+        </template>
+        <el-button-group>
+          <el-button type="primary" icon="el-icon-edit">回答问题</el-button>
+          <el-button type="primary" icon="el-icon-document">写文章</el-button>
+          <el-button type="primary" icon="el-icon-user">个人中心</el-button>
+          <el-button type="primary" icon="el-icon-question">我的问题</el-button>
+        </el-button-group>
+      </el-card>
+
+      <!-- 更多操作区域 -->
+      <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+        <template #header>
+          <div class="clearfix">
+            <span class="card-header">更多操作</span>
+          </div>
+        </template>
+        <div class="actions-container">
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-view">浏览记录</el-button>
+          </div>
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-thumb">我的点赞</el-button>
+          </div>
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-star">我的收藏</el-button>
+          </div>
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-warning">我的举报</el-button>
+          </div>
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-wallet">我的余额</el-button>
+          </div>
+          <div class="action-item">
+            <el-button type="info" icon="el-icon-setting">设置</el-button>
+          </div>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 <script setup>
@@ -151,6 +196,7 @@ onMounted(() => {});
   .faq-side {
     width: 300px;
     margin-left: 10px;
+    margin-top: 20px;
     text-align: center;
 
     .side-signin {
@@ -184,7 +230,7 @@ onMounted(() => {});
       }
     }
   }
-}
+  }
 
 @media (max-width: 800px) {
   .faq-list-item {

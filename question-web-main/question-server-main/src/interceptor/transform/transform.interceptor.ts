@@ -1,3 +1,4 @@
+// 这段代码定义了一个名为 TransformInterceptor 的拦截器，使用了 NestJS 框架。在 NestJS 中，拦截器是一种特殊的中间件，可以在函数处理请求之前或之后执行额外的逻辑。拦截器主要用于执行任务，如日志记录、异常处理、数据转换等。
 import {
   CallHandler,
   ExecutionContext,

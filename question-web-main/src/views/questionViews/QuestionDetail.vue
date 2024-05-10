@@ -113,7 +113,7 @@
           <!-- 评论列表 -->
           <!-- <div class="reply-list">
             <div class="user-reply">
-              
+
             </div>
             <div class="reply-action">
               <span>回复</span>
@@ -122,6 +122,7 @@
             </div>
           </div> -->
         </div>
+<!--        底部-->
         <div class="pagination">
           <el-pagination
             background
@@ -134,6 +135,7 @@
         </div>
       </div>
     </div>
+<!--    侧边栏-->
     <div class="question-detail-sidebar">
       <el-card class="user-card" v-if="state">
         <template #header>
@@ -144,14 +146,42 @@
         <div class="author-info">
           <div class="infos">
             <div class="author-name">
-              <span>{{ questionDetail.user.nickName }}</span>
+<!--              <span>{{ questionDetail.user.nickName }}</span>-->
+              <span>作者名称</span>
             </div>
           </div>
-          <div class="author-summary">
-            {{ questionDetail.user.introduction }}
-          </div>
+<!--          <div class="author-summary">-->
+<!--            {{ questionDetail.user.introduction }}-->
+<!--          </div>-->
+
+                    <div class="author-summary">
+                      这是作者的简介
+                    </div>
         </div>
       </el-card>
+<!--空白侧边栏-->
+      <el-card class="user-card" v-if="state">
+        <template #header>
+          <div class="card-header">
+
+          </div>
+        </template>
+        <div class="author-info">
+          <div class="infos">
+            <div class="author-name">
+              <!--              <span>{{ questionDetail.user.nickName }}</span>-->
+
+            </div>
+          </div>
+          <!--          <div class="author-summary">-->
+          <!--            {{ questionDetail.user.introduction }}-->
+          <!--          </div>-->
+
+
+        </div>
+      </el-card>
+
+
     </div>
   </div>
   <!-- 弹出框 -->
@@ -499,6 +529,7 @@ onMounted(() => {
     width: 305px;
     margin-left: 15px;
     .user-card {
+      margin-top: 20px;
       box-shadow: none;
       .author-info {
         .infos {

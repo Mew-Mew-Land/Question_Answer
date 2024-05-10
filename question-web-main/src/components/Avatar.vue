@@ -12,7 +12,7 @@ const props = defineProps({
   avatarUrl: {
     type: String,
     default:
-      "",
+      "@/src/icon/5e9840c7_E882787_b31c866e.png",
   },
 });
 </script>

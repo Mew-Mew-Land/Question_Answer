@@ -17,8 +17,8 @@
     <div class="answer-content" v-html="data.content"></div>
 
     <div class="answer-action">
-      <!-- <el-button type="primary">点赞</el-button>
-            <el-button type="primary">评论</el-button> -->
+<!--       <el-button type="primary">点赞</el-button>-->
+<!--            <el-button type="primary">评论</el-button>-->
       <span class="answer-reply" @click="commentHandle(index)">回复</span>
       <el-button
         v-if="currentUserInfo.userId === data.user.userId"
@@ -27,6 +27,7 @@
         >编辑</el-button
       >
       <el-button
+
         type="primary"
         v-if="
           currentUserInfo.userId === questionDetail.user.userId &&
