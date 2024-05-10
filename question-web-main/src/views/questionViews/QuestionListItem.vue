@@ -20,11 +20,20 @@
       </div>
     </div>
     <div class="question-item">
+
+
+
       <div class="title">
         <RouterLink :to="`/faqDetail/${data.questionId}`" class="a-link">
           {{ data.title }}
         </RouterLink>
       </div>
+      <div class="answer">
+
+
+        <RouterLink :to="`/faqDetail/${data.questionId}`" class="a-link">          <button>查看详情</button> </RouterLink>
+      </div>
+
       <div class="userInfo">
         <div class="author">
           <RouterLink class="a-link" :to="`/user/${data.user.userId}`">
@@ -60,6 +69,9 @@ const props = defineProps({
 });
 </script>
 <style lang="scss">
+
+
+
 .faq-list-item {
   display: flex;
   padding: 0.8em;
@@ -103,6 +115,16 @@ const props = defineProps({
 
 
        margin-left: 10px;
+    .answer{
+      margin-left: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .button{
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(to right, #ff9966, #ff5e62);
+      transform: scale(1.1);
+
+    }
     .title {
     }
     .userInfo {

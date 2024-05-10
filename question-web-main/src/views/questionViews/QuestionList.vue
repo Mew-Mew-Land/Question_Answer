@@ -59,7 +59,7 @@
         </template>
         <el-button-group>
           <el-button type="primary" icon="el-icon-edit">回答问题</el-button>
-          <el-button type="primary" icon="el-icon-document">写文章</el-button>
+          <el-button type="primary" icon="el-icon-document">编写文章</el-button>
           <el-button type="primary" icon="el-icon-user">个人中心</el-button>
           <el-button type="primary" icon="el-icon-question">我的问题</el-button>
         </el-button-group>
@@ -172,7 +172,19 @@ watch(
 
 onMounted(() => {});
 </script>
+
+
 <style lang="scss">
+
+.box-card {
+  width: 270px;
+  margin-left: 50px;
+}
+
+.action-item .el-button {
+  width: 230px; /* 设置按钮的宽度 */
+  height: 45px; /* 设置按钮的宽度 */
+}
 .faq-list-body {
   display: flex;
   min-height: 100vh;
