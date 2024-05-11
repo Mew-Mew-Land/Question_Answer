@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result ex(Exception e){
+        System.out.println("wowowowwowow"+e.toString());
+        System.out.println("wowowowwowow"+e.getMessage());
         e.printStackTrace();
-        return Result.error("出现异常");
+        return Result.error(e.getMessage());
     }
 }

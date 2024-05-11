@@ -11,8 +11,16 @@ public interface QuestionMapper {
 
     void insertQuestion(Question ques);
     Question getByQuesID(int id);
+    Question getByQuestion(Question ques);
     List<Question> getByUserID(int ID);
 
     //根据算法给出的ids链表来找Question
     List<Question> getByQuesIDInBatch(List<Integer> Ids);
+
+    void updateQuestion(Question ques);
+
+    void updateQuestionInfo(Question ques);
+
+    void updateViewNum(int id);
+
 }

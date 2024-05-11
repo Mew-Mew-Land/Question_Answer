@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Slf4j
 @RestController
 public class QuestionController {
@@ -36,10 +35,25 @@ public class QuestionController {
         User user=TokenUtil.parsePayloadWithUser(token);
         log.info(user.toString());
         ques.setUserID(user.getId());
-        questionServant.createQuestion(ques);
-        Question res=questionServant.searchByID(ques.getId());
+        Question res=questionServant.createQuestion(ques);
         if(res!=null)
         return Result.success(res);
         else return Result.error("提交失败");
+    }
+    @PostMapping("/home/submitQues/modify")
+    public Result modifyQues(@RequestBody Question ques){
+        Question res=questionServant.modifyQues(ques);
+        if(res!=null)
+            return Result.success(res);
+        else return Result.error("提交失败");
+    }
+    @PostMapping("/home/submitQues/setIsSolved")
+    public Result setIsSolved(@RequestBody int id){
+        return Result.success("www"+id);
+    }
+    @PostMapping("/home/viewQuestions")
+    public Result viewQues(@RequestBody int id){
+        questionServant.addNumForQues(id);
+        return Result.success("成功增加");
     }
 }

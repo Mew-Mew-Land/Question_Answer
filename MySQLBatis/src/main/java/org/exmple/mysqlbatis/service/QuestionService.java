@@ -6,9 +6,15 @@ import org.exmple.mysqlbatis.entity.Question;
 import java.util.List;
 
 public interface QuestionService extends ServiceForRedis{
-    String QuestionPrefix="question:";
+    String QuestionIdPrefix="questionId:";
+    String PrefixQuestion="question:";
+    String PrefixQuestionViewNum="questionViewNum:";//后面跟id
     PageBean<Question> ProvideQuestion(List<Question> quesS);
-    void createQuestion(Question ques);
+    Question createQuestion(Question ques);
 
     Question searchByID(int id);
+
+    Question modifyQues(Question ques);
+
+    void addNumForQues(int id);
 }

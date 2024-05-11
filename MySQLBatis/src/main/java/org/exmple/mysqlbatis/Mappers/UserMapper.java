@@ -28,6 +28,9 @@ public interface UserMapper {
      //批量删除
      void deleteUser(List<Integer> ids);
      //
-     @Select("select AccountName from users where AccountName=#{accountname}")
-     User getByAccountName(User user);
+     @Select("select id,username, AccountName,avatar from users where AccountName=#{accountName}")
+     User getByAccountName(String accountName);
+
+     @Select("select id,username, AccountName,avatar from users where AccountName=#{accountName}")
+     User getByUserID(int id);
 }

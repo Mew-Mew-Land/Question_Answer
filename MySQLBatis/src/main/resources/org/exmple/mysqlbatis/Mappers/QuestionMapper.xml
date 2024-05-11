@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.exmple.mysqlbatis.Mappers.QuestionMapper">
     <sql id="QuestionSearch">
-        select ID, question, classification, answerNum, isSolved from question
+        select id, question, classification, answerNum, isSolved,ViewNum from question
     </sql>
     <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
         insert into question(classification,question,UserID,answerNum) values(
@@ -17,11 +17,35 @@
         </if>
         );
     </insert>
+
+    <update id="updateQuestion">
+        update question set
+        <if test="question!=null">
+            question=#{question},
+        </if>
+        UpdateTime=now()
+        <where>
+             id=#{id};
+        </where>
+    </update>
+
+    <update id="updateQuestionInfo">
+        update question set answerNum=#{answerNum},isSolved=#{isSolved}
+        <where>
+            id=#{id};
+        </where>
+    </update>
+    <update id="updateViewNum">
+        update question set ViewNum=ViewNum+1
+        <where>
+            id=#{id};
+        </where>
+    </update>
     <select id="getByQuesID" resultType="org.exmple.mysqlbatis.entity.Question">
         <include refid="QuestionSearch">
         </include>
         <where>
-            ID=#{id}
+            id=#{id}
         </where>
     </select>
     <select id="getByUserID" resultType="org.exmple.mysqlbatis.entity.Question">
@@ -36,8 +60,15 @@
         </include>
         <foreach collection="Ids" item="id" separator="," open="(" close=")">
             <where>
-                ID=#{id}
+                id=#{id}
             </where>
         </foreach>
+    </select>
+    <select id="getByQuestion" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <where>
+            question=#{question}
+        </where>
     </select>
 </mapper>

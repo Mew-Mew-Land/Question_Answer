@@ -8,4 +8,8 @@ public class UserBehaviorServant implements UserBehaviorService{
         return 0;
     }
 
+    @Override
+    public void setAndespireKey(String key, String value) {
+
+    }
 }
