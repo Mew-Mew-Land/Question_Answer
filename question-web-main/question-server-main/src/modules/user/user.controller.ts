@@ -12,6 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UpdateUserDTO } from './dto/update.dto';
 import { Request } from 'express';
+
 @ApiTags('用户信息')
 @Controller('user')
 export class UserController {

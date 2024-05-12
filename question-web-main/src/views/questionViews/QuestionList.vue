@@ -15,7 +15,7 @@
             <QuestionListItem :data="data"></QuestionListItem>
           </template>
         </DataList>
-<!--        问题下面的底部-->
+
 <!--        <div class="pagination">-->
 <!--          <el-pagination-->
 <!--            background-->
@@ -58,38 +58,48 @@
           </div>
         </template>
         <el-button-group>
-          <el-button type="primary" icon="el-icon-edit">回答问题</el-button>
-          <el-button type="primary" icon="el-icon-document">编写文章</el-button>
-          <el-button type="primary" icon="el-icon-user">个人中心</el-button>
-          <el-button type="primary" icon="el-icon-question">我的问题</el-button>
+          <el-button type="info" >
+            <i class="iconfont icon-wancheng1"></i>回答问题</el-button>
+          <el-button type="info" >
+            <i class="iconfont icon-bianjiwenzhang_huaban"></i>编写文章</el-button>
+          <el-button type="info" >
+            <i class="iconfont icon-wodewenzhang"></i>个人中心</el-button>
+          <el-button type="info" >
+            <i class="iconfont icon-gonggao"></i>我的问题</el-button>
         </el-button-group>
       </el-card>
 
       <!-- 更多操作区域 -->
-      <el-card class="box-card" style="margin-top: 10px;" shadow="never">
+      <el-card class="box-card2" style="margin-top: 10px;" shadow="never">
         <template #header>
           <div class="clearfix">
             <span class="card-header">更多操作</span>
           </div>
         </template>
-        <div class="actions-container">
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-view">浏览记录</el-button>
+        <div >
+          <div class="action-item2">
+            <el-button type="info" >
+              <i class="iconfont icon-shijian"></i>浏览记录</el-button>
           </div>
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-thumb">我的点赞</el-button>
+          <div class="action-item2">
+            <el-button type="info" >
+              <i class="iconfont icon-good"></i> 我的点赞</el-button>
           </div>
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-star">我的收藏</el-button>
+          <div class="action-item2">
+            <el-button type="info" >
+              <i class="iconfont icon-kong"></i> 我的收藏</el-button>
           </div>
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-warning">我的举报</el-button>
+          <div class="action-item2">
+            <el-button type="info" >
+              <i class="iconfont icon-shanchu"></i> 我的举报</el-button>
           </div>
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-wallet">我的余额</el-button>
+          <div class="action-item2">
+            <el-button type="info" >
+              <i class="iconfont icon-gaojian-zuozhe"></i> 我的余额</el-button>
           </div>
-          <div class="action-item">
-            <el-button type="info" icon="el-icon-setting">设置</el-button>
+          <div class="action-item2">
+            <el-button  type="info">
+              <i class="iconfont icon-xiaoxi"></i> 系统设置</el-button>
           </div>
         </div>
       </el-card>
@@ -146,7 +156,7 @@ const handelPageNoChange = (pageNo) => {
 watch(
   () => route.params,
   (newVal, oldVal) => {
-    console.log(newVal.boardId);
+
     if (newVal.boardId) {
       currentPage.value = 1;
       getQuestionList(newVal.boardId);
@@ -181,8 +191,38 @@ onMounted(() => {});
   margin-left: 50px;
 }
 
+
+.box-card2 {
+  width: 150px;
+  margin-left: 50px;
+  margin-top: 30px;
+}
+.action-item2 {
+
+  margin: 10px; /* 为每个按钮添加间距 */
+  display: flex; /* 使用Flexbox来对齐按钮 */
+  justify-content: center; /* 按钮居中显示 */
+}
+
+.action-item2 .el-button {
+  border: none; /* 移除按钮边框 */
+  color: white; /* 设置文本颜色为白色 */
+  font-weight: bold; /* 字体加粗 */
+
+  padding: 10px 20px; /* 设置内边距 */
+  border-radius: 5px; /* 设置圆角边 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  transition: background-color 0.3s, box-shadow 0.3s; /* 过渡效果 */
+  width: 100px;
+}
+
+.el-button:hover {
+  background-color: var(--mainColor); /* 鼠标悬停时改变背景色 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 鼠标悬停时增加阴影 */
+}
+
 .action-item .el-button {
-  width: 230px; /* 设置按钮的宽度 */
+  width: 50px; /* 设置按钮的宽度 */
   height: 45px; /* 设置按钮的宽度 */
 }
 .faq-list-body {

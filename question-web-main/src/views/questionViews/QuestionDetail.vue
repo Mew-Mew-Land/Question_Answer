@@ -3,9 +3,32 @@
     <el-skeleton v-if="!state" :rows="5" animated />
     <div class="question-detail-info" v-if="state">
       <div class="question-main">
+        <Avatar></Avatar>
+
+
+        <span class="author-name">
+            <RouterLink
+                class="a-link"
+                :to="`/user/${questionDetail.user.userId}`"
+            >
+             作者: {{ questionDetail.user.nickName }}
+            </RouterLink>
+          </span>
+
+
+        <el-divider direction="vertical" />
+
+        <span>编辑于{{ proxy.TransformIsoDate(questionDetail.createTime) }}</span>
+
+        <el-divider direction="vertical" />
+
+
+
+
         <h2 class="question-title">{{ questionDetail.title }}</h2>
-        <div class="author-info">
-          <Avatar></Avatar>
+<!--    <Avatar></Avatar>
+
+
           <span class="author-name">
             <RouterLink
               class="a-link"
@@ -14,11 +37,15 @@
               {{ questionDetail.user.nickName }}
             </RouterLink>
           </span>
+
+
           <el-divider direction="vertical" />
+
           <span>{{ proxy.TransformIsoDate(questionDetail.createTime) }}</span>
+
           <el-divider direction="vertical" />
-          <div class="question-tags">{{ questionDetail.board.boardName }}</div>
-        </div>
+
+          <div class="question-tags">{{ questionDetail.board.boardName }}</div>-->
 
         <!-- 正文 -->
         <div
@@ -73,9 +100,9 @@
           <div class="answer-content" v-html="item.content"></div>
 
           <div class="answer-action">
-            <!-- <el-button type="primary">点赞</el-button>
-            <el-button type="primary">评论</el-button> -->
-            <span class="answer-reply" @click="commentHandle(index)">回复</span>
+            <el-button type="primary"><i class="iconfont icon-good"></i>点赞</el-button>
+            <el-button type="primary"><i class="iconfont icon-huifu"></i>评论</el-button>
+<!--            <span class="answer-reply" @click="commentHandle(index)">回复</span>-->
             <el-button
               v-if="currentUserInfo.userId === item.user.userId"
               type="primary"
@@ -110,6 +137,8 @@
             v-if="item.showReply"
           ></CommentBox>
 
+
+
           <!-- 评论列表 -->
           <!-- <div class="reply-list">
             <div class="user-reply">
@@ -122,6 +151,10 @@
             </div>
           </div> -->
         </div>
+
+
+
+
 <!--        底部-->
         <div class="pagination">
           <el-pagination
@@ -135,6 +168,11 @@
         </div>
       </div>
     </div>
+
+
+
+
+
 <!--    侧边栏-->
     <div class="question-detail-sidebar">
       <el-card class="user-card" v-if="state">
