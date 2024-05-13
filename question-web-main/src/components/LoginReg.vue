@@ -122,11 +122,11 @@ const dialogConfig = reactive({
   title: "登录",
 });
 
-const showDialog = () => {
+const showLoginDialog = () => {
   store.showLogin = true;
 };
 defineExpose({
-  showDialog,
+  showLoginDialog,
 });
 
 // 表单数据
@@ -139,15 +139,8 @@ const formData = reactive({
   // nickName: "",
 });
 
-// const validatePass = (rule, value, callback) => {
-//   if (value === "") {
-//     callback(new Error("请再次输入密码"));
-//   } else if (value !== formData.password) {
-//     callback(new Error("密码不匹配！"));
-//   } else {
-//     callback();
-//   }
-// };
+
+
 
 const rules = reactive({
   account: [
@@ -170,6 +163,9 @@ const rules = reactive({
   nickName: [{ required: true, message: "请输入昵称", trigger: "blur" }],
 });
 
+
+
+
 // 登录
 const login = () => {
   formDataRef.value.validate(async (vaild) => {
@@ -179,10 +175,10 @@ const login = () => {
     }
 
     // 向服务器进行请求,
-    //     登录接口的 URL 地址为 "/auth/login
+    // /auth/login
     // result 变量将会接收请求的返回值。
     let result = await proxy.Request({
-      url: auth.login,
+      url: "/auth/login",
       params: {
         username: formData.account,   
         password: formData.password,
@@ -214,13 +210,13 @@ const login = () => {
     restForm();
   });
 
-  // console.log(result);
+
 };
 
 // 注册
 const register = async () => {
   let result = await proxy.Request({
-    url: auth.register,
+    url: "/auth/register",
     params: {
       username: formData.account,
       password: formData.password,

@@ -7,10 +7,8 @@
 
         <el-form-item prop="content">
 <!--          :placeholder="placeholderInfo"：设置输入框的占位符文本。-->
-<!--          :maxlength="150"：最大输入长度为150个字符-->
 <!--          resize="none"：输入框将保持固定的尺寸。-->
 <!--          show-word-limit：显示输入框中字符的字数限制。-->
-<!--          v-model="formData.content"：双向绑定非数据-->
 <!--          type="textarea"：指多行文本框。-->
           <el-input
             clearable

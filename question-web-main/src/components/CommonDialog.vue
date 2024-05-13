@@ -1,8 +1,5 @@
   <template>
-    <!-- 点击发布按钮时显示的对话框 -->
-<!--    <el-dialog> 组件来创建一个对话框-->
-<!--    custom-class:为组件添加特定的样式-->
-<!--    @close关闭时调用函数-->
+
     <el-dialog
       v-model="show"
       :title="title"

@@ -3,15 +3,18 @@
   <div class="header">
     <div class="header-container">
       <div class="header-body container-body">
+
+
         <div class="logo">
           <img src="@/icon/9fcef5305e65ab4288ff910a7fbb1696.png" alt="" srcset="" />
         </div>
+
+
         <div class="navbar">
-          <!-- 板块 -->
           <div class="board">
             <RouterLink to="/" class="nav-link">知拾</RouterLink>
-            <!-- <RouterLink to="/article" class="nav-link">文章</RouterLink> -->
           </div>
+
           <div class="nav-right">
             <!-- 搜索框 -->
             <div class="search">
@@ -31,6 +34,9 @@
                 </template>
               </el-input>
             </div>
+
+
+
             <!-- 用户区域 -->
             <div class="user-operation">
               <el-button
@@ -41,14 +47,14 @@
                 @click="loginAndRegister()"
                 >注册登录</el-button
               >
+
               <div class="user-info" v-else>
                 <el-dropdown>
+
                   <el-button
                     type="primary"
                     style="background-color: var(--mainColor)"
-                  >
-                    提问
-                    <span class="iconfont icon-xialacaidan"></span>
+                  >提问<span class="iconfont icon-xialacaidan"></span>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
@@ -58,13 +64,15 @@
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
-                <!-- 消息图标 -->
-<!--                <RouterLink-->
-<!--                  to="/userMessage"-->
-<!--                  style="text-decoration: none; color: var(&#45;&#45;mainColor)"-->
-<!--                >-->
-<!--                  <span class="iconfont icon-xiaoxi"></span>-->
-<!--                </RouterLink>-->
+
+<!--                 消息图标 -->
+                <RouterLink
+                  to="/userMessage"
+                  style="text-decoration: none; color: var(--mainColor)"
+                >
+                  <span class="iconfont icon-xiaoxi"></span>
+                </RouterLink>
+
 
                 <!-- 头像 -->
                 <el-dropdown>
@@ -84,33 +92,19 @@
                   </template>
                 </el-dropdown>
               </div>
+
             </div>
           </div>
+
         </div>
-        <div class="navbar-m">
-          <!-- 头像 -->
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              <Avatar></Avatar>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="toCenter()"
-                  >我的主页</el-dropdown-item
-                >
-                <el-dropdown-item @click="logout()">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span class="iconfont menu"></span>
-        </div>
+
       </div>
     </div>
 
+<!--    板块的导航栏-->
     <div class="category-tags-container " v-if="isHome">
       <span class="categories-list">
         <span
-
           :class="[
             'categories-list-item',
             activeBoard == null ? 'categories-active' : '',
@@ -131,6 +125,7 @@
       </span>
     </div>
   </div>
+
 
   <!-- 显示区域 -->
   <div class="body-content">
@@ -168,7 +163,7 @@ const logout = () => {
 const boardList = ref(null);
 const getBoardList = async () => {
   let result = await proxy.Request({
-    url: board.allBoard,
+    url: "/board/all",
     errorCallback: () => {
       proxy.Message.error("查询板块失败");
     },
@@ -181,7 +176,7 @@ const getBoardList = async () => {
 const loginRegRef = ref();
 // 登录注册
 const loginAndRegister = () => {
-  loginRegRef.value.showDialog();
+  loginRegRef.value.showLoginDialog();
 };
 
 const toCenter = () => {
@@ -365,15 +360,5 @@ watch(
   display: none;
 }
 
-@media (max-width: 800px) {
-  .search {
-    display: none;
-  }
-}
-@media (min-width: 800px) {
-  .search {
-    display: flex;
-    align-items: center;
-  }
-}
+
 </style>

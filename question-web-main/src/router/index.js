@@ -45,12 +45,12 @@ const router = createRouter({
           name: "消息",
           component: () => import("@/views/userCenter/UserMessage.vue"),
         },
+        {
+          path: "/newPost/",
+          name: "发布文章或问题",
+          component: () => import("@/views/EditPost/EditPost.vue"),
+        },
       ],
-    },
-    {
-      path: "/newPost/",
-      name: "发布文章或问题",
-      component: () => import("@/views/EditPost/EditPost.vue"),
     },
     {
       path: "/editPost/:questionId",

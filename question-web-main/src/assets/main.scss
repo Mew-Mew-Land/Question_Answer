@@ -1,5 +1,5 @@
 
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400&display=swap');
+
 
 
 :root{
@@ -16,7 +16,7 @@
   padding: 0;
   box-sizing: border-box;
   outline: none;
-  
+
 }
 body {
   background-color: #e9ecef;
@@ -75,13 +75,6 @@ ul {
     margin: 0 auto;
   }
 }
-
-
-@font-face {
-  font-family: "Droid Sans Mono";
-  src: url("./Droid-Sans-Mono/DroidSansMono-1.ttf");
-}
-
 
 // 设置代码块字体及大小
 
