@@ -28,7 +28,9 @@
 
 
       <div class="question-item">
-
+<!--data的属性:{ "questionId": 1, "title": "111", "createTime": "2024-05-01T12:00:00.320Z", "updateTime":
+"2024-05-12T14:45:42.000Z", "viewCount": 25, "answerCount": 2,
+"isSolve": false, "user": { "userId": 1 }, "board": { "boardId": 2, "boardName": "板块二" } }-->
       <div class="title">
         <RouterLink :to="`/faqDetail/${data.questionId}`" class="a-link">
           {{ data.title }}
