@@ -261,7 +261,7 @@ watch(
       height: 65px;
       align-items: center;
       .logo {
-        width: 50px;
+        width: 70px;
         height: 50px;
         margin-left: 8px;
         img {
@@ -287,6 +287,8 @@ watch(
         .nav-right {
           display: flex;
           .search {
+            margin-right: 10px;
+            margin-top: 5px;
           }
           .search-mobile {
             display: flex;
@@ -315,14 +317,15 @@ watch(
 
   .category-tags-container {
     overflow: auto;
-    margin: 0 auto;
-    border: 1px solid;
+    margin-left: 0;
+    border-top: 1px solid;
     border-image: linear-gradient(to right, #004fc4, #ffffff) 1;
     border-image-slice: 1;
-    background-color: #fff;
+    background-image:url("@/icon/OIP.jpg") ;
     display: flex;
     justify-content: center;
     align-items: center;
+
 
     .categories-list {
       align-items: center;
@@ -331,14 +334,16 @@ watch(
       margin: 0 auto;
 
       .categories-list-item {
-        color: #606a78;
+        color: white;
         cursor: pointer;
         font-size: 15px;
         margin: 0 6px;
         padding: 3px 14px;
         word-break: keep-all;
         align-items: center;
+
       }
+
 
       .categories-active {
         background-color: #004fc4;
@@ -350,11 +355,14 @@ watch(
     }
   }
 }
+
 .body-content {
   margin-top: 0px;
   background-image: url("@/icon/OIP.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  height: 1000px;
+
 }
 .navbar-m {
   display: none;

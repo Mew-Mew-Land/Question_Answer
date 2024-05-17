@@ -1,14 +1,27 @@
 <template>
   <div class="container-body faq-list-body">
+
     <!-- 问题列表与右侧公告栏 -->
     <div class="faq-main">
+      <!-- 轮播图 -->
+      <el-carousel :interval="5000" arrow="always" class="faq-carousel">
+        <el-carousel-item v-for="(slide, index) in slides" :key="index">
+          <img :src="slide.image" class="carousel-image" />
+        </el-carousel-item>
+      </el-carousel>
       <el-tabs v-model="activeTab" class="faq-header" @tab-change="changeTab">
         <el-tab-pane label="按发布时间" name=""></el-tab-pane>
         <el-tab-pane label="按浏览次数" name="0"></el-tab-pane>
         <el-tab-pane label="按回答数量" name="1"></el-tab-pane>
       </el-tabs>
 
+
+
+
       <el-skeleton v-if="!state" :rows="5" animated />
+
+
+
       <div class="faq-list" v-else>
         <DataList :loading="loading" :dataSource="questionData">
           <template #default="{ data }">
@@ -49,31 +62,41 @@
 <!--        </el-card>-->
 <!--      </div>-->
 <!--    </div>-->
+
+
     <div class="faq-side">
       <!-- 创作中心区域 -->
       <el-card class="box-card" shadow="never">
         <template #header>
           <div class="clearfix">
-            <span class="card-header">创作中心</span>
+            <span class="card-header" ><B><h2>创作中心</h2></B></span>
           </div>
         </template>
-        <el-button-group>
+        <el-button-group class="button-group">
           <el-button type="info" >
-            <i class="iconfont icon-wancheng1"></i>回答问题</el-button>
+            <i class="iconfont icon-wancheng1"></i></el-button>
           <el-button type="info" >
-            <i class="iconfont icon-bianjiwenzhang_huaban"></i>编写文章</el-button>
+            <i class="iconfont icon-bianjiwenzhang_huaban"></i></el-button>
           <el-button type="info" >
-            <i class="iconfont icon-wodewenzhang"></i>个人中心</el-button>
+            <i class="iconfont icon-wodewenzhang"></i></el-button>
           <el-button type="info" >
-            <i class="iconfont icon-gonggao"></i>我的问题</el-button>
+            <i class="iconfont icon-gonggao"></i></el-button>
         </el-button-group>
+
+        <div class="labels">
+          <span>编辑</span>
+          <span>写文章</span>
+          <span>写想法</span>
+          <span>通知</span>
+        </div>
+
       </el-card>
 
       <!-- 更多操作区域 -->
       <el-card class="box-card2" style="margin-top: 10px;" shadow="never">
         <template #header>
-          <div class="clearfix">
-            <span class="card-header">更多操作</span>
+          <div class="clearfixel-card is-never-shadow box-card2">
+            <span class="card-header"><B><h2>更多操作</h2></B></span>
           </div>
         </template>
         <div >
@@ -121,6 +144,12 @@ const userInfo = ref();
 
 let loading = ref(false);
 const questionData = ref({});
+
+const slides = ref([
+  { image: 'https://p9.itc.cn/images01/20231114/9d5c8a0d5bea4de1b6cb88c4e4d79af9.jpeg' },
+  { image: 'https://uploadfile.bizhizu.cn/up/91/e6/19/91e619947b3205fff47fb6161308b4b4.jpg.source.jpg' },
+  { image: 'https://img1.baidu.com/it/u=3263265934,2210313069&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1716138000&t=0c88bc017b2b0bf9230049beec4211a0' },
+]);
 const getQuestionList = async (boardId) => {
   let result = await proxy.Request({
     url: question.faqList,
@@ -199,31 +228,31 @@ onMounted(() => {});
 }
 .action-item2 {
 
-  margin: 10px; /* 为每个按钮添加间距 */
-  display: flex; /* 使用Flexbox来对齐按钮 */
-  justify-content: center; /* 按钮居中显示 */
+  margin: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .action-item2 .el-button {
-  border: none; /* 移除按钮边框 */
-  color: white; /* 设置文本颜色为白色 */
-  font-weight: bold; /* 字体加粗 */
+  border: none;
+  color: white;
+  font-weight: bold;
 
-  padding: 10px 20px; /* 设置内边距 */
-  border-radius: 5px; /* 设置圆角边 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-  transition: background-color 0.3s, box-shadow 0.3s; /* 过渡效果 */
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
   width: 100px;
 }
 
 .el-button:hover {
-  background-color: var(--mainColor); /* 鼠标悬停时改变背景色 */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 鼠标悬停时增加阴影 */
+  background-color: var(--mainColor);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .action-item .el-button {
-  width: 50px; /* 设置按钮的宽度 */
-  height: 45px; /* 设置按钮的宽度 */
+  width: 50px;
+  height: 45px;
 }
 .faq-list-body {
   display: flex;
@@ -231,18 +260,29 @@ onMounted(() => {});
   .faq-main {
     background-color: #ffffff;
     flex: 1;
+    opacity: 0.9;
+
+    .el-tabs{
+      height: 40px;
+    }
+    .el-tabs__header{
+      margin-top: 15px;
+      margin-left: 0 ;
+    }
     .faq-header {
-      min-height: 54px;
+      min-height: 40px;
       display: flex;
       align-items: center;
-      line-height: 54px;
+      line-height: 40px;
       padding-left: 15px;
+
 
       .is-active {
           color: var(--mainColor);
       }
     }
     .faq-list {
+      margin-top: -4px;
     }
   }
   .faq-side {
@@ -251,6 +291,12 @@ onMounted(() => {});
     margin-top: 20px;
     text-align: center;
 
+    .el-card{
+      opacity: 0.9;
+    }
+    .el-card__header{
+      width:300px;
+    }
     .side-signin {
       display: flex;
       flex-direction: column;
@@ -272,11 +318,13 @@ onMounted(() => {});
       }
     }
     .side-acc {
+
       .card-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
+
       .box-card {
         width: 100%;
       }
@@ -305,5 +353,75 @@ onMounted(() => {});
   .num-tips-container {
     justify-content: space-around;
   }
+}
+
+.faq-carousel {
+  margin-top: 0px;
+  .el-carousel__item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-width: 3px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #808080, #ffffff) 1;
+    border-image-slice: 1;
+  }
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+}
+
+.button-group .el-button {
+  margin: 5px;
+  border-color: transparent;
+  background-color: transparent;
+  color: black;
+}
+
+.button-group .iconfont {
+  font-size: 30px;
+}
+
+.el-card{
+  width: 300px;
+}
+
+.labels span {
+  display: inline-block;
+  margin-right: 13px;
+}
+
+
+.labels span:last-child {
+  margin-right: 0;
+}
+
+.action-item2 .el-button {
+  background-color: transparent;
+  color: black;
+  border-color: black;
+  font-size: 25px;
+  padding: 15px 30px;
+  width: 200px; /* 设置按钮的宽度 */
+  height: 50px; /* 设置按钮的高度 */
+
+}
+
+.action-item2 .el-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.action-item2 .el-button.el-button--info {
+  background-color: transparent;
+  border-color: black;
+  color: black;
+}
+
+
+.action-item2 .iconfont {
+  font-size: 24px;
 }
 </style>
