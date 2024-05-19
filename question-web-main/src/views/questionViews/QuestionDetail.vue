@@ -154,6 +154,41 @@
 
 
 
+        <!-- 评论回复界面 -->
+        <div class="comments-section" v-if="state">
+          <div class="comment-list">
+            <div class="comment-item" v-for="(comment, index) in comments" :key="index">
+              <div class="comment-user">
+                <Avatar></Avatar>
+                <span class="comment-name">{{ comment.user }}</span>
+              </div>
+              <div class="comment-content" v-html="comment.text"></div>
+              <div class="comment-action">
+                <el-button @click="replyToComment(index)">回复</el-button>
+                <span class="comment-date">{{ comment.date }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 新建评论表单 -->
+          <div class="new-comment">
+            <el-form :model="newComment" @submit.native.prevent="submitComment">
+              <el-form-item label="评论内容">
+                <el-input
+                    type="textarea"
+                    v-model="newComment.text"
+                    placeholder="写下你的评论"
+                ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitComment">提交评论</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+
+
+
 
 <!--        底部-->
         <div class="pagination">
@@ -280,6 +315,33 @@ const route = useRoute();
 const drawer = ref(false);
 const state = ref(false);
 const answerState = ref(false);
+
+// 初始评论数据
+const comments = ref([
+  { user: '用户A', text: '这是一条评论', date: '2024-05-19' },
+  // ...其他评论数据...
+]);
+
+// 新建评论表单数据
+const newComment = ref({
+  text: '',
+});
+
+// 提交评论的方法
+const submitComment = () => {
+  // 这里添加提交评论的逻辑
+  console.log('提交评论:', newComment.value.text);
+  // 可以在这里添加代码将评论数据提交到后端
+  // 清空输入
+  newComment.value.text = '';
+};
+
+// 回复评论的方法
+const replyToComment = (index) => {
+  // 这里添加回复评论的逻辑
+  console.log(`回复评论 ${index}:`, comments.value[index].text);
+  // 在这里添加代码来实现回复逻辑
+};
 // 文章详情
 const questionDetail = ref({});
 // 获取文章详情
@@ -494,6 +556,7 @@ onMounted(() => {
     .question-main {
       background-color: #fff;
       padding: 25px;
+      opacity: 0.9;
 
       .question-title {
       }
@@ -566,7 +629,9 @@ onMounted(() => {
   .question-detail-sidebar {
     width: 305px;
     margin-left: 15px;
+    opacity: 0.9;
     .user-card {
+      margin-left: 0px;
       margin-top: 20px;
       box-shadow: none;
       .author-info {
@@ -601,6 +666,37 @@ onMounted(() => {
 @media (max-width: 800px) {
   .question-detail-sidebar {
     display: none;
+  }
+}
+
+.comments-section {
+  background-color: #fff;
+  padding: 25px;
+  margin-top: 20px;
+  opacity: 0.9;
+  .comment-list {
+    .comment-item {
+      border-bottom: 1px solid #c1c1c1;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      .comment-user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .comment-content {
+        width: 300px;
+        height: 50px;
+      }
+      .comment-action {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  }
+  .new-comment {
+    margin-top: 20px;
   }
 }
 </style>
