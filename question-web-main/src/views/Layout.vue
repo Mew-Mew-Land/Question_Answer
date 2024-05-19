@@ -54,7 +54,7 @@
                   <el-button
                     type="primary"
                     style="background-color: var(--mainColor)"
-                  >提问<span class="iconfont icon-xialacaidan"></span>
+                  >提问<i class="iconfont icon-xialacaidan"></i>
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
