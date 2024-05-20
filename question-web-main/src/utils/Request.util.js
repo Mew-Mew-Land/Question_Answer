@@ -33,6 +33,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (response) => {
       // 解构出响应中需要的配置项
+      console.log(response);
       const { errorCallback, showError } = response.config;
       // 获取响应数据
       const responseData = response.data;

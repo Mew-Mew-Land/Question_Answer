@@ -10,13 +10,15 @@
 
       <el-skeleton v-if="!state" :rows="5" animated />
       <div class="faq-list" v-else>
-        <DataList :loading="loading" :dataSource="questionData">
-          <template #default="{ data }">
-            <QuestionListItem :data="data"></QuestionListItem>
-          </template>
-        </DataList>
-      </div>
-    </div>
+    <DataList  :dataSource="questionData">
+      <template #default="{ data }">
+        <QuestionListItem :data="data"></QuestionListItem>
+      </template>
+    </DataList>
+  </div>
+  </div>
+
+
     <div class="faq-side">
       <!-- 创作中心区域 -->
       <el-card class="box-card" shadow="never">
@@ -112,6 +114,7 @@ const getQuestionList = async (boardId) => {
       proxy.Message.error("请求失败");
     },
   });
+  console.log(result);
   if (!result) return;
   questionData.value = result.data;
   state.value = true;

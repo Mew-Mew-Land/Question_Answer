@@ -76,15 +76,10 @@ const props = defineProps({
   data: {
     type: Object,
   },
-  htmlTitle: {
-    type: Boolean,
-    default: false,
-  },
+
 });
 </script>
 <style lang="scss">
-
-
 
 .faq-list-item {
   display: flex;

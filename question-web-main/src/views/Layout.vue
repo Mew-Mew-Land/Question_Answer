@@ -113,11 +113,11 @@
           >全部</span
         >
         <span
+            v-for="item in boardList"
           :class="[
             'categories-list-item',
             item.boardId == activeBoard ? 'categories-active' : '',
           ]"
-          v-for="item in boardList"
           @click="boradClickHandler(item.boardId)"
         >
           {{ item.boardName }}
@@ -215,21 +215,16 @@ const search = () => {
 onMounted(() => {
   getBoardList();
 });
-watch(
-  () => route.params.boardId,
-  (newVal, oldVal) => {
-    store.boardId = newVal;
-  },
-  { immediate: true, deep: true }
-);
 
-watch(
-  () => store.boardId,
-  (newVal, oldVal) => {
-    activeBoard.value = newVal;
-  },
-  { immediate: true, deep: true }
-);
+  watch(
+      () => route.params.boardId,
+      (newVal, oldVal) => {
+        store.boardId = newVal;
+        activeBoard.value = newVal;
+      },
+      { immediate: true, deep: true }
+  );
+
 
 // 监听用户信息变化
 const userInfo = ref({});

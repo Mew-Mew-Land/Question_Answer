@@ -58,26 +58,7 @@ const editorConfig = {
   placeholder: "请输入内容",
   excludeKeys: ["uploadVideo"],
   MENU_CONF: {
-    // uploadImage: {
-    //   maxFileSize: 3 * 1024 * 1024,
-    //   server: "/api/file/uploadImage",
-    //   fieldName: "file",
-    //   customInsert(responseData, insertFn) {
-    //     // 正常请求
-    //     if (responseData == 200) {
-    //       insertFn(proxy.globalInfo.imageUrl + responseData.data.fileName),
-    //         "",
-    //         "";
-    //       return;
-    //     } else if (responseData == 901) {
-    //       // 登陆超时
-    //       store.commit("showLogin", true);
-    //       store.commit("updateLoginUserInfo", null);
-    //       return;
-    //     }
-    //     proxy.Message.error(responseData.info);
-    //   },
-    // },
+
   },
 };
 

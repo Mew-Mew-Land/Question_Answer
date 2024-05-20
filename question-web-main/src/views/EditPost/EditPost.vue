@@ -1,10 +1,5 @@
 <template>
   <div class="edit-post">
-<!--    :model双向绑定-->
-<!--    :rules验证规则,在()函数中调用验证-->
-<!--    ref引用名-->
-<!--    class应用对应style-->
-<!--    label-width-->
     <el-form
       :model="formData"
       :rules="rules"
