@@ -272,7 +272,7 @@
   </el-drawer>
 </template>
 <script setup>
-import CommentBox from "../../components/CommentBox.vue";
+
 import {
   ref,
   watch,

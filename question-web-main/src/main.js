@@ -11,8 +11,7 @@ import Avatar from "./components/Avatar.vue";
 import EditorMarkdown from "./components/EditorMarkdown.vue";
 import EditorHtml from "./components/EditorHtml.vue";
 import DataList from "./components/DataList.vue";
-import CommonDialog from "./components/CommonDialog.vue";
-import CommentBox from "./components/CommentBox.vue";
+
 
 // 全局方法
 import message from "./utils/Message.utils.js";
@@ -34,8 +33,6 @@ app.component("Avatar", Avatar);
 app.component("EditorMarkdown", EditorMarkdown);
 app.component("EditorHtml", EditorHtml);
 app.component("DataList", DataList);
-app.component("CommonDialog", CommonDialog);
-app.component("CommentBox", CommentBox);
 
 app.use(pinia);
 app.use(router);
