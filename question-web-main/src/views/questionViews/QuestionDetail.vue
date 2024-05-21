@@ -26,26 +26,7 @@
 
 
         <h2 class="question-title">{{ questionDetail.title }}</h2>
-<!--    <Avatar></Avatar>
 
-
-          <span class="author-name">
-            <RouterLink
-              class="a-link"
-              :to="`/user/${questionDetail.user.userId}`"
-            >
-              {{ questionDetail.user.nickName }}
-            </RouterLink>
-          </span>
-
-
-          <el-divider direction="vertical" />
-
-          <span>{{ proxy.TransformIsoDate(questionDetail.createTime) }}</span>
-
-          <el-divider direction="vertical" />
-
-          <div class="question-tags">{{ questionDetail.board.boardName }}</div>-->
 
         <!-- 正文 -->
         <div
@@ -347,7 +328,7 @@ const questionDetail = ref({});
 // 获取文章详情
 const getQuestionDetail = async (questionId) => {
   let result = await proxy.Request({
-    url: question.questionDetail,
+    url: "/question/questionDetail",
     params: {
       questionId: questionId,
     },
@@ -364,10 +345,8 @@ const getQuestionDetail = async (questionId) => {
 const answerList = ref({});
 const getAnswerList = async (questionId) => {
   let result = await proxy.Request({
-    url: answer.getAnswerList,
+    url: "/answer/getAnswerList",
     params: {
-      page: currentPage.value,
-      pageSize: 10,
       questionId: questionId,
     },
   });
@@ -375,28 +354,13 @@ const getAnswerList = async (questionId) => {
   answerList.value = result.data;
   answerState.value = true;
 };
-// 页数跳转
-const currentPage = ref(1);
-const handelPageNoChange = (pageNo) => {
-  currentPage.value = pageNo;
-  getAnswerList(route.params.questionId);
-};
 
-// 代码高亮;
-const highlightCode = () => {
-  nextTick(() => {
-    let blocks = document.querySelectorAll("pre code");
-    blocks.forEach((item) => {
-      hljs.highlightBlock(item);
-    });
-  });
-};
 
 // 删除问题
 const delQuestion = async () => {
   proxy.Confirm("确认删除？", () => {
     let result = proxy.Request({
-      url: question.deleteFaq,
+      url: "/question/deleteFaq",
       params: {
         questionId: questionDetail.value.questionId,
       },
@@ -465,7 +429,6 @@ const postAnswer = () => {
     answerData.value.markdownContent = "";
     drawer.value = false;
   });
-  // console.log(answerData.value);
 };
 const setHtmlContent = (htmlContent) => {
   answerData.value.content = htmlContent;
@@ -532,15 +495,7 @@ const commentHandle = (index) => {
 // 获取评论操作
 const getComment = async () => {};
 
-watch(
-  () => route.params.questionId,
-  (newVal, oldVal) => {
-    // getQuestionDetail(newVal);
-    // getAnswerList(newVal);
-    // currentUserInfo.value = store.loginUserInfo;
-  },
-  { immediate: true, deep: true }
-);
+
 onMounted(() => {
   getQuestionDetail(route.params.questionId);
   getAnswerList(route.params.questionId);
