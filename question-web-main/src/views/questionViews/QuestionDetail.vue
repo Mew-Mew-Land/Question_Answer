@@ -59,8 +59,7 @@
         </div>
       </div>
       <!-- 回答列表 -->
-      <el-skeleton v-if="!answerState" :rows="5" animated />
-      <div class="question-answer-list" v-else>
+      <div class="question-answer-list" >
         <div
           :class="['answer-item', item.isAdopt ? 'isAdopt' : '']"
           v-for="(item, index) in answerList.list"
@@ -113,24 +112,10 @@
               删除
             </el-button>
           </div>
-          <CommentBox
-            :answerId="item.answerId"
-            v-if="item.showReply"
-          ></CommentBox>
 
 
 
-          <!-- 评论列表 -->
-          <!-- <div class="reply-list">
-            <div class="user-reply">
 
-            </div>
-            <div class="reply-action">
-              <span>回复</span>
-              <el-divider direction="vertical" />
-              <span>4 月 14 日</span>
-            </div>
-          </div> -->
         </div>
 
 
@@ -169,24 +154,8 @@
         </div>
 
 
-
-
-<!--        底部-->
-        <div class="pagination">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            v-if="answerList.pagination.pages > 1"
-            :total="answerList.pagination.total"
-            v-model:current-page="answerList.pagination.page"
-            @current-change="handelPageNoChange"
-          />
-        </div>
       </div>
     </div>
-
-
-
 
 
 <!--    侧边栏-->
@@ -200,13 +169,11 @@
         <div class="author-info">
           <div class="infos">
             <div class="author-name">
-<!--              <span>{{ questionDetail.user.nickName }}</span>-->
+
               <span>作者名称</span>
             </div>
           </div>
-<!--          <div class="author-summary">-->
-<!--            {{ questionDetail.user.introduction }}-->
-<!--          </div>-->
+
 
                     <div class="author-summary">
                       这是作者的简介
@@ -223,13 +190,11 @@
         <div class="author-info">
           <div class="infos">
             <div class="author-name">
-              <!--              <span>{{ questionDetail.user.nickName }}</span>-->
+
 
             </div>
           </div>
-          <!--          <div class="author-summary">-->
-          <!--            {{ questionDetail.user.introduction }}-->
-          <!--          </div>-->
+
 
 
         </div>

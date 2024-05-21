@@ -15,12 +15,7 @@
         <el-tab-pane label="按回答数量" name="1"></el-tab-pane>
       </el-tabs>
 
-
-
-
       <el-skeleton v-if="!state" :rows="5" animated />
-
-
 
       <div class="faq-list" v-else>
         <DataList :loading="loading" :dataSource="questionData">
@@ -29,39 +24,10 @@
           </template>
         </DataList>
 
-<!--        <div class="pagination">-->
-<!--          <el-pagination-->
-<!--            background-->
-<!--            layout="prev, pager, next"-->
-<!--            v-if="questionData.pagination.pages > 1"-->
-<!--            :total="questionData.pagination.total"-->
-<!--            v-model:current-page="questionData.pagination.page"-->
-<!--            @current-change="handelPageNoChange"-->
-<!--          />-->
-<!--        </div>-->
       </div>
 
-      <!-- <div class="faq-list"></div> -->
+
     </div>
-<!--    <div class="faq-side">-->
-<!--      <div class="side-signin">-->
-<!--        <div class="signin">-->
-<!--          <span class="userInfo">👋Hi！ {{ userInfo.nickName }}</span>-->
-<!--          &lt;!&ndash; <span class="time">{{ currentTime() + "好" }}</span> &ndash;&gt;-->
-<!--        </div>-->
-<!--        <div class="quote">这是一个技术问答平台，发表你的问题吧！👋</div>-->
-<!--      </div>-->
-<!--      <div class="side-acc">-->
-<!--        <el-card class="box-card" style="box-shadow: none">-->
-<!--          <template #header>-->
-<!--            <div class="card-header">-->
-<!--              <h3>公告</h3>-->
-<!--            </div>-->
-<!--          </template>-->
-<!--          <span>暂无公告</span>-->
-<!--        </el-card>-->
-<!--      </div>-->
-<!--    </div>-->
 
 
     <div class="faq-side">

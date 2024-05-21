@@ -1,73 +1,88 @@
 <template>
   <div class="edit-post">
     <el-form
-      :model="formData"
-      :rules="rules"
-      ref="formDataRef"
-      class="post-pannel"
-      label-width="60px"
+        :model="formData"
+        :rules="rules"
+        ref="formDataRef"
+        class="post-pannel"
+        label-width="60px"
     >
       <div class="post-editor">
         <el-card :body-style="{ padding: '5px' }" style="box-shadow: none">
           <template #header>
             <div class="post-editor-title">
               <span
-                class="iconfont icon-fanhui"
-                style="cursor: pointer"
-                @click="back"
+                  class="iconfont icon-fanhui"
+                  style="cursor: pointer"
+                  @click="back"
               >
                 返回</span
               >
               <el-form-item class="input-main" prop="title">
                 <el-input
-                  class="input-title"
-                  v-model="formData.title"
-                  placeholder="请输入问题标题，文本支持markdown语法"
+                    class="input-title"
+                    v-model="formData.title"
+                    placeholder="请输入问题标题，文本支持markdown语法"
                 />
               </el-form-item>
 
               <el-button
-                type="primary"
-                style="background-color: var(--mainColor)"
-                @click="dialogHandle()"
-                >发布</el-button
+                  type="primary"
+                  style="background-color: var(--mainColor)"
+                  @click="dialogHandle()"
+              >发布</el-button
               >
             </div>
           </template>
           <el-form-item prop="content" label-width="0">
             <!-- markdown编辑器 -->
             <EditorMarkdown
-              v-if="editorType == 1"
-              :height="700"
-              v-model="formData.markdownContent"
-              @htmlContent="setHtmlContent"
+                v-if="editorType == 1"
+                :height="700"
+                v-model="formData.markdownContent"
+                @htmlContent="setHtmlContent"
             ></EditorMarkdown>
           </el-form-item>
         </el-card>
       </div>
     </el-form>
   </div>
-  <CommonDialog
-    :title="dialogInfo.title"
-    :width="dialogInfo.width"
-    :buttons="dialogInfo.buttons"
-    ref="postDialogRef"
+  <el-dialog
+      v-model="showDialog"
+      :title="dialogInfo.title"
+      custom-class="cust-dialog"
+      :width="dialogInfo.width"
+      @close="handleClose"
   >
-    <el-form :rules="rules">
-      <el-form-item label="选择分类" prop="boardId">
-        <el-radio-group v-model="formData.boardId" size="large">
-          <el-radio-button
-            v-for="item in boardList"
-            :key="item.boardId"
-            :label="item.boardId"
-          >
-            {{ item.boardName }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-    </el-form>
-  </CommonDialog>
+    <div class="dialog-body">
+      <el-form :rules="rules">
+        <el-form-item label="选择分类" prop="boardId">
+          <el-radio-group v-model="formData.boardId" size="large">
+            <el-radio-button
+                v-for="item in boardList"
+                :key="item.boardId"
+                :label="item.boardId"
+            >
+              {{ item.boardName }}
+            </el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button
+            v-for="btn in dialogInfo.buttons"
+            :type="btn.type"
+            @click="btn.click"
+        >
+          {{ btn.text }}
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
+
 <script setup>
 import { ref, getCurrentInstance, watch, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -79,18 +94,9 @@ const { proxy } = getCurrentInstance();
 const router = useRouter();
 const route = useRoute();
 
-// 当前状态 发布0 / 编辑1
 const isEdit = ref(0);
 
-// 选中的板块
-
-const formData = ref({
-  // questionId: "",
-  // title: "",
-  // markdownContent: "",
-  // content: "",
-  // boardId: chooseBoard.value,
-});
+const formData = ref({});
 const formDataRef = ref();
 
 const dialogInfo = reactive({
@@ -102,7 +108,6 @@ const dialogInfo = reactive({
       type: "primary",
       click: () => {
         if (isEdit.value) {
-          // 发布编辑的文章
           updateQuestion();
         } else {
           postHandler();
@@ -111,6 +116,8 @@ const dialogInfo = reactive({
     },
   ],
 });
+
+const showDialog = ref(false);
 
 const back = () => {
   router.go(-1);
@@ -131,7 +138,6 @@ const rules = reactive({
   content: [{ required: true, message: "请输入正文", trigger: "blur" }],
 });
 
-// 编辑器类型 0:富文本 1:markdown
 const editorType = ref(1);
 
 const changeEditor = () => {
@@ -139,11 +145,14 @@ const changeEditor = () => {
   formData.value.content = "";
   formData.value.markdownContent = "";
 };
-const postDialogRef = ref();
-const dialogHandle = () => {
-  postDialogRef.value.showDialog();
+
+const handleClose = () => {
+  showDialog.value = false;
 };
-// 单选框
+
+const dialogHandle = () => {
+  showDialog.value = true;
+};
 
 const boardList = ref([]);
 const getBoardList = async () => {
@@ -176,7 +185,6 @@ const postHandler = () => {
   });
 };
 
-// 获取问题信息
 const questionId = ref(null);
 const getQuestionDetail = async () => {
   let result = await proxy.Request({
@@ -186,7 +194,6 @@ const getQuestionDetail = async () => {
     },
   });
   if (!result) return;
-  // console.log(result.data);
   formData.value.title = result.data.title;
   formData.value.content = result.data.content;
   formData.value.markdownContent = result.data.markdownContent;
@@ -194,7 +201,6 @@ const getQuestionDetail = async () => {
   formData.value.boardId = result.data.board.boardId;
 };
 
-// 保存修改的问题信息
 const updateQuestion = () => {
   formDataRef.value.validate(async (valid) => {
     if (!valid) return;
@@ -211,19 +217,19 @@ const updateQuestion = () => {
 };
 
 watch(
-  () => route,
-  (newVal, oldVal) => {
-    if (newVal.path.indexOf("/editPost") != -1) {
-      isEdit.value = 1;
-      questionId.value = newVal.params.questionId;
-      getQuestionDetail();
-    } else {
-    }
-    getBoardList();
-  },
-  { immediate: true, deep: true }
+    () => route,
+    (newVal, oldVal) => {
+      if (newVal.path.indexOf("/editPost") != -1) {
+        isEdit.value = 1;
+        questionId.value = newVal.params.questionId;
+        getQuestionDetail();
+      }
+      getBoardList();
+    },
+    { immediate: true, deep: true }
 );
 </script>
+
 <style lang="scss">
 .edit-post {
   overflow: auto;
@@ -271,5 +277,9 @@ watch(
       }
     }
   }
+}
+.cust-dialog {
+  max-height: 600px;
+  overflow: auto;
 }
 </style>

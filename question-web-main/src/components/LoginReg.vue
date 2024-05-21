@@ -174,9 +174,6 @@ const login = () => {
       return;
     }
 
-    // 向服务器进行请求,
-    // /auth/login
-    // result 变量将会接收请求的返回值。
     let result = await proxy.Request({
       url: "/auth/login",
       params: {

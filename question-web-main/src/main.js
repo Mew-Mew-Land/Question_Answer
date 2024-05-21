@@ -9,7 +9,6 @@ import "element-plus/dist/index.css";
 // 导入全局组件
 import Avatar from "./components/Avatar.vue";
 import EditorMarkdown from "./components/EditorMarkdown.vue";
-import EditorHtml from "./components/EditorHtml.vue";
 import DataList from "./components/DataList.vue";
 
 
@@ -31,7 +30,6 @@ app.config.globalProperties.Validate = Validate;
 // 调用全局组件
 app.component("Avatar", Avatar);
 app.component("EditorMarkdown", EditorMarkdown);
-app.component("EditorHtml", EditorHtml);
 app.component("DataList", DataList);
 
 app.use(pinia);
