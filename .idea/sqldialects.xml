@@ -4,6 +4,5 @@
     <file url="file://$PROJECT_DIR$/MySQLBatis/src/main/java/org/exmple/mysqlbatis/Mappers/UserBehaviorMapper.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/MySQLBatis/src/main/java/org/exmple/mysqlbatis/Mappers/UserMapper.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/MySQLBatis/src/main/resources/database/schema.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/MySQLBatis/src/main/resources/database/script.sql" dialect="MySQL" />
   </component>
 </project>

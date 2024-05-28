@@ -35,10 +35,6 @@ class MySqlBatisApplicationTests {
     }
     @Test
     public void JwtTest(){
-/*       String aaa=TokenUtil.genAccessToken("wwwww");
-        System.out.println(aaa);
-        Jws<Claims> a=TokenUtil.parseClaim(aaa);
-        System.out.println(a);*/
     }
     @Test
     public void redisTest(){
@@ -56,7 +52,7 @@ class MySqlBatisApplicationTests {
     public void insertQuestion(){
         Question a=new Question();
         a.setQuestion("sdxwd11");
-        a.setClassification("ssd32wa");
+        a.setClassificationId(1);
         a.setUserId(1);
         a.setUpdateTime(LocalDate.now());
         questionMapper.insertQuestion(a);
