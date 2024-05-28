@@ -8,15 +8,16 @@ import java.time.LocalDateTime;
 public class Answer {
     private int ID;
     private int questionId;
-    private int answerer;//回答者ID
     private String content;
     private  int commentNum;
     private LocalDateTime updateTime;
+    private int userId;//回答者ID
+    private String username;
 
-    public Answer(int ID, int questionId, int answerer, String content, int commentNum, LocalDateTime updateTime) {
+    public Answer(int ID, int questionId, int userId, String content, int commentNum, LocalDateTime updateTime) {
         this.ID = ID;
         this.questionId = questionId;
-        this.answerer = answerer;
+        this.userId = userId;
         this.content = content;
         this.commentNum = commentNum;
         this.updateTime = updateTime;

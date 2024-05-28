@@ -9,12 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MySqlBatisApplication {
 
     public static void main(String[] args) {
-        InitDataBase aa=new InitDataBase();
+        /*InitDataBase aa=new InitDataBase();
         try{
             aa.init();
         }catch (Exception ignored){
 
-        }
+        }*/
 
         SpringApplication.run(MySqlBatisApplication.class, args);
     }

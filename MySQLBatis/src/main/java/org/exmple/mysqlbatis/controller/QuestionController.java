@@ -1,10 +1,12 @@
 package org.exmple.mysqlbatis.controller;
 
+import io.jsonwebtoken.security.Request;
 import lombok.extern.slf4j.Slf4j;
 import org.exmple.mysqlbatis.entity.PageBean;
 import org.exmple.mysqlbatis.entity.Question;
 import org.exmple.mysqlbatis.entity.Result;
 import org.exmple.mysqlbatis.entity.User;
+import org.exmple.mysqlbatis.service.AnswerServant;
 import org.exmple.mysqlbatis.service.QuestionServant;
 import org.exmple.mysqlbatis.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import java.util.List;
 @RestController
 public class QuestionController {
     @Autowired
-    QuestionServant questionServant;
+    private QuestionServant questionServant;
+    @Autowired
+    private AnswerServant answerServant;
 
     @PostMapping("/home")
     public Result getContent(@RequestHeader("token") String token){
@@ -31,11 +35,13 @@ public class QuestionController {
     }
 
     @PostMapping("/home/submitQues")
-    public Result submitQues(@RequestBody Question ques, @RequestHeader("token") String token){
+    public Result submitQues(@RequestBody Question ques,@RequestHeader("token") String token){
         User user=TokenUtil.parsePayloadWithUser(token);
-        log.info(user.toString());
-        ques.setUserID(user.getId());
+        ques.setUserId(user.getId());
+        ques.setUsername(user.getUsername());
+        log.info(String.valueOf("quesController.submitQues:"+ques.getUsername()));
         Question res=questionServant.createQuestion(ques);
+
         if(res!=null)
         return Result.success(res);
         else return Result.error("提交失败");
@@ -51,7 +57,7 @@ public class QuestionController {
     public Result setIsSolved(@RequestBody int id){
         return Result.success("www"+id);
     }
-    @PostMapping("/home/viewQuestions")
+    @PostMapping("/home/viewQuestion")
     public Result viewQues(@RequestBody int id){
         questionServant.addNumForQues(id);
         return Result.success("成功增加");

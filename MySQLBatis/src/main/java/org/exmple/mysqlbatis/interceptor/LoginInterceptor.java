@@ -1,10 +1,12 @@
 package org.exmple.mysqlbatis.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.exmple.mysqlbatis.entity.Result;
+import org.exmple.mysqlbatis.entity.User;
 import org.exmple.mysqlbatis.utils.TokenUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

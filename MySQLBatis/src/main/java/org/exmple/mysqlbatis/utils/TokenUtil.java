@@ -100,6 +100,7 @@ public class TokenUtil {
        String accountName=(String)claim.get("accountName");
        int avatar=(int)claim.get("avatar");
         User user=new User();
+        user.setId(id);
         user.setUsername(username);
         user.setAccountName(username);
         user.setAvatar(avatar);

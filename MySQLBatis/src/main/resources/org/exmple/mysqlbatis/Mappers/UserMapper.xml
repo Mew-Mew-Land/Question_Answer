@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.exmple.mysqlbatis.Mappers.UserMapper">
     <sql id="UserSearch">
-        select * from users
+        select id,username,accountName,avatar from users
     </sql>
     <insert id="createUserAccount">
         insert into users(username,password,accountName) values
@@ -23,5 +23,10 @@
     <select id="userList" resultType="org.exmple.mysqlbatis.entity.User">
         <include refid="UserSearch">
         </include>
+    </select>
+    <select id="getById" resultType="org.exmple.mysqlbatis.entity.User">
+        <include refid="UserSearch">
+        </include>
+        <where>id=#{userId}</where>
     </select>
 </mapper>

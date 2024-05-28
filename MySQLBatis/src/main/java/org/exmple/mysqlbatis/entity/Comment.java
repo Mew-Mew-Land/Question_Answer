@@ -6,16 +6,17 @@ import java.time.LocalDateTime;
 
 @Data
 public class Comment {
-    private int ID;
-    private int answerID;
-    private  int userID;
+    private int id;
+    private int answerId;
     private String comment;
     private LocalDateTime postingTime;
+    private  int userId;
+    private String username;
 
-    public Comment(int ID, int answerID, int userID, String comment, LocalDateTime postingTime) {
-        this.ID = ID;
-        this.answerID = answerID;
-        this.userID = userID;
+    public Comment(int id, int answerId, int userId, String comment, LocalDateTime postingTime) {
+        this.id = id;
+        this.answerId = answerId;
+        this.userId = userId;
         this.comment = comment;
         this.postingTime = postingTime;
     }

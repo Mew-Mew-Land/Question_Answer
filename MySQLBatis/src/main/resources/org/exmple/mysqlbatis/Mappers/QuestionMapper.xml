@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.exmple.mysqlbatis.Mappers.QuestionMapper">
     <sql id="QuestionSearch">
-        select id, question, classification, answerNum, isSolved,ViewNum from question
+        select id, question, classificationId, answerNum, isSolved,viewNum userid from question
     </sql>
     <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
-        insert into question(classification,question,UserID,answerNum) values(
+        insert into question(classificationId,question,UserID,answerNum) values(
         <if test="classification!=null">
-            #{classification},
+            #{classificationId},
         </if>
-        #{question},#{UserID}
+        #{question},#{userId}
         <if test="answerNum!=null">
             ,#{answerNum}
         </if>
@@ -23,7 +23,7 @@
         <if test="question!=null">
             question=#{question},
         </if>
-        UpdateTime=now()
+        updateTime=now()
         <where>
              id=#{id};
         </where>
@@ -52,7 +52,7 @@
         <include refid="QuestionSearch"> 
         </include>
         <where>
-            UserID=#{id}
+            userId=#{id}
         </where>
     </select>
     <select id="getByQuesIDInBatch" resultType="org.exmple.mysqlbatis.entity.Question">

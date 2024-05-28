@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * 初始化java数据库
  *
  * @author mind
- * @date 2020/8/3 13:45
+ *  2020/8/3 13:45
  */
 @Component
 @Slf4j

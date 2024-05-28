@@ -12,6 +12,13 @@ create table answers
 create index answers__question_index
     on answers (questionID);
 
+create table classfication
+(
+    id            int auto_increment
+        primary key,
+    classfication varchar(32) not null
+);
+
 create table comments
 (
     ID          int      not null
@@ -31,15 +38,15 @@ create index comments_userID_index
 
 create table question
 (
-    id             int auto_increment comment '问题唯一标识'
+    id               int auto_increment comment '问题唯一标识'
         primary key,
-    question       varchar(200)               not null comment '问题名字',
-    classification varchar(32)                not null comment '所属分区',
-    answerNum      int        default 0       not null comment '回答个数',
-    isSolved       tinyint(1) default 0       not null,
-    UserID         int                        not null comment '发出问题者',
-    ViewNum        int        default 0       not null,
-    UpdateTime     date       default (now()) not null,
+    question         varchar(200)               not null comment '问题名字',
+    classificationId int                        not null comment '所属分区',
+    answerNum        int        default 0       not null comment '回答个数',
+    isSolved         tinyint(1) default 0       not null,
+    UserID           int                        not null comment '发出问题者',
+    ViewNum          int        default 0       not null,
+    UpdateTime       date       default (now()) not null,
     constraint question_pk
         unique (question)
 );
@@ -75,12 +82,13 @@ create table users
         primary key,
     username    varchar(20) not null comment '用户名',
     password    varchar(16) not null comment '密码',
-    AccountName varchar(20) null comment '马甲',
+    accountName varchar(20) null comment '马甲',
     avatar      int         null comment '头像位置根据int值在相应的图片数据库中',
     constraint Users_pk_2
         unique (username),
     constraint Users_pk_3
-        unique (AccountName)
+        unique (accountName)
 );
+
 
 

@@ -7,17 +7,12 @@ import org.exmple.mysqlbatis.Mappers.UserMapper;
 import org.exmple.mysqlbatis.entity.Question;
 import org.exmple.mysqlbatis.entity.User;
 import org.exmple.mysqlbatis.service.QuestionServant;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import redis.clients.jedis.Jedis;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @SpringBootTest
@@ -62,7 +57,7 @@ class MySqlBatisApplicationTests {
         Question a=new Question();
         a.setQuestion("sdxwd11");
         a.setClassification("ssd32wa");
-        a.setUserID(1);
+        a.setUserId(1);
         a.setUpdateTime(LocalDate.now());
         questionMapper.insertQuestion(a);
         System.out.println(JSON.toJSONString((a), SerializerFeature.UseISO8601DateFormat));
