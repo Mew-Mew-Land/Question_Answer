@@ -1,40 +1,40 @@
 create table answers
 (
-    ID         int           not null comment '唯一标识'
+    id         int           not null comment '唯一标识'
         primary key,
-    questionID int           not null comment '标识所属问题',
-    answerer   int           not null comment '答主ID',
+    questionId int           not null comment '标识所属问题',
     content    text          null comment '回答内容',
     commentNum int default 0 null comment '评论',
-    updateTime datetime      not null comment '上次更改时间'
+    updateTime datetime      not null comment '上次更改时间',
+    userId     int           not null comment '答主ID'
 );
 
 create index answers__question_index
-    on answers (questionID);
+    on answers (questionId);
 
-create table classfication
+create table classification
 (
-    id            int auto_increment
+    id             int auto_increment
         primary key,
-    classfication varchar(32) not null
+    classification varchar(32) not null
 );
 
 create table comments
 (
-    ID          int      not null
+    id          int      not null
         primary key,
-    answerID    int      null comment '所属回答的ID',
-    userID      int      null comment '评论的用户ID',
+    answerId    int      null comment '所属回答的ID',
     comment     text     null comment '评论内容',
-    postingTime datetime not null
+    postingTime datetime not null,
+    userId      int      null comment '评论的用户ID'
 )
     comment '用户的评论表';
 
 create index comments__answer_index
-    on comments (answerID);
+    on comments (answerId);
 
-create index comments_userID_index
-    on comments (userID);
+create index comments_userId_index
+    on comments (userId);
 
 create table question
 (
@@ -44,18 +44,18 @@ create table question
     classificationId int                        not null comment '所属分区',
     answerNum        int        default 0       not null comment '回答个数',
     isSolved         tinyint(1) default 0       not null,
-    UserID           int                        not null comment '发出问题者',
-    ViewNum          int        default 0       not null,
-    UpdateTime       date       default (now()) not null,
+    userId           int                        not null comment '发出问题者',
+    viewNum          int        default 0       not null,
+    updateTime       date       default (now()) not null,
     constraint question_pk
         unique (question)
 );
 
 create index ViewNumSort
-    on question (ViewNum);
+    on question (viewNum);
 
-create index question_UserID_index
-    on question (UserID);
+create index question_userId_index
+    on question (userId);
 
 create table u_recommendation
 (
@@ -89,6 +89,4 @@ create table users
     constraint Users_pk_3
         unique (accountName)
 );
-
-
 
