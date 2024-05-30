@@ -10,22 +10,14 @@
             <QuestionListItem :data="data"></QuestionListItem>
           </template>
         </DataList>
-        <div class="pagination">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="searchData.pagination.total"
-            v-model:current-page="searchData.pagination.page"
-            @current-change="handelPageNoChange"
-          />
-        </div>
+
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { question } from "../../utils/api.utils";
-import QuestionListItem from "../questionViews/QuestionListItem.vue";
+
+
 import { watch, ref, getCurrentInstance, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
@@ -43,8 +35,6 @@ const searchQuestion = async () => {
   let result = await proxy.Request({
     url: question.search,
     params: {
-      page: currentPage.value,
-      pageSize: 10,
       keywords: route.params.keyword,
     },
   });

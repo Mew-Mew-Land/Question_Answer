@@ -1,15 +1,11 @@
 import axios from "axios";
 import Message from "./Message.utils";
 
-// 设置请求的内容类型为 JSON
 const contentTypeJson = "application/json";
 
-// 生产环境的基础 URL
-const productionUrl = "";
-
-// 开发环境的基础 URL
 const devUrl = "http://localhost:3000";
-
+//const devUrl = "http://192.168.137.91:8080";
+//const devUrl = "http://192.168.137.184:8080";
 // 创建 axios 实例并配置基本选项
 const instance = axios.create({
   baseURL: devUrl, // 使用开发环境的 URL
@@ -19,11 +15,9 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
     (config) => {
-      // 请求发送前可以进行的配置修改或添加功能
       return config;
     },
     (error) => {
-      // 请求发生错误时的处理，如网络错误等
       Message.error("请求发送失败");
       return Promise.reject("请求发送失败");
     }
@@ -52,10 +46,10 @@ instance.interceptors.response.use(
     },
     (error) => {
       // 响应错误处理，如服务器返回的错误状态码
-      console.log(error.response.data.message); // 打印错误消息以便调试
+      console.log(error.response.data.message);
       return Promise.reject({
-        showError: true, // 总是显示错误
-        msg: error.response.data.message, // 错误消息
+        showError: true,
+        msg: error.response.data.message,
       });
     }
 );
@@ -78,12 +72,12 @@ const request = async (config) => {
   }
 
   // 获取认证 token
-  let token = "Bearer " + (localStorage.getItem("token") || "");
+  let token = localStorage.getItem("token") ;
   // 设置请求头
   let headers = {
-    "Content-Type": contentType,
-    "X-Requested-With": "XMLHttpRequest", // 标识为 AJAX 请求
-    Authorization: token, // 设置认证头
+        "Content-Type": contentType,
+        "X-Requested-With": "XMLHttpRequest", // 标识为 AJAX 请求
+    token: token, // 设置认证头
   };
 
   try {

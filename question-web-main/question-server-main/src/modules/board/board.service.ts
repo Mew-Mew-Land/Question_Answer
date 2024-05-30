@@ -29,6 +29,6 @@ export class BoardService {
     return `This action removes a #${id} board`;
   }
   async findBoardById(boardId: number) {
-    return await this.boardRepository.findOneBy({ boardId });
+    return await this.boardRepository.findOneBy({ boardId: classificationId });
   }
 }

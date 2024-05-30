@@ -24,21 +24,15 @@
         </div>
         <div class="user-oper">
           <el-button
-            v-if="userInfo.userId == store.loginUserInfo.userId"
             type="primary"
             style="background-color: var(--mainColor)"
             @click="dialogHandle()"
             >修改资料</el-button
           >
-          <!-- <el-button type="primary">关注他</el-button>
-          <el-button type="primary">发私信</el-button> -->
+          <el-button type="primary">关注他</el-button>
+          <el-button type="primary">发私信</el-button>
         </div>
-        <div class="user-detail">
-          <!-- <span>{{ loginUserInfo.city }}</span>
-          <span>{{ loginUserInfo.summary }}</span>
-          <span>{{ loginUserInfo.regTime }}加入</span>
-          <span>{{ loginUserInfo.lastLoginTime }}上线</span> -->
-        </div>
+
       </div>
     </div>
     <div class="user-penal-right">
@@ -46,80 +40,23 @@
         <el-tab-pane label="提问" name="0"></el-tab-pane>
       </el-tabs>
       <el-skeleton v-if="!state" :rows="5" animated />
-      <!-- <div class="datalist" v-else>
+       <div class="datalist" v-else>
         <div class="list-item" v-for="item in userPostList.list">
-          <div class="list-item-title">
-            <RouterLink :to="`/faqDetail/${item.questionId}`" class="a-link">
-              {{ item.title }}
-            </RouterLink>
-          </div>
-          <div class="list-item-info">
-            <span class="time">{{
-              proxy.TransformIsoDate(item.createTime)
-            }}</span>
-            <div class="count">
-              <span class="item-comment">{{ item.answerCount }}</span>
-              |
-              <span class="item-read">{{ item.viewCount }}</span>
-            </div>
-          </div>
+ //把问题列表再写一遍
         </div>
-        <div class="pagination">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            v-if="userPostList.pagination.pages > 1"
-            :total="userPostList.pagination.total"
-            v-model:current-page="userPostList.pagination.page"
-            @current-change="handelPageNoChange"
-          />
-        </div>
-      </div> -->
 
+      </div>
       <div class="faq-list" v-else>
-        <DataList :loading="loading" :dataSource="userPostList">
-          <template #default="{ data }">
-            <QuestionListItem :data="data"></QuestionListItem>
-          </template>
-        </DataList>
-        <div class="pagination">
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="userPostList.pagination.total"
-            v-model:current-page="userPostList.pagination.page"
-            @current-change="handelPageNoChange"
-          />
-        </div>
       </div>
     </div>
   </div>
 
-  <CommonDialog
-    :title="dialogInfo.title"
-    :width="dialogInfo.width"
-    :buttons="dialogInfo.buttons"
-    ref="editDialogRef"
-  >
-    <el-form :rules="rules" :model="userFormData" ref="userFormDataRef">
-      <el-form-item label="昵称" prop="nickName">
-        <el-input v-model="userFormData.nickName" />
-      </el-form-item>
-      <el-form-item label="城市" prop="city">
-        <el-input v-model="userFormData.city" />
-      </el-form-item>
-      <el-form-item label="简介" prop="introduction">
-        <el-input v-model="userFormData.introduction" type="textarea" />
-      </el-form-item>
-    </el-form>
-  </CommonDialog>
 </template>
 <script setup>
-import QuestionListItem from "../questionViews/QuestionListItem.vue";
+
 import { onMounted, ref, watch, getCurrentInstance, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useMainStore } from "../../stores/index";
-import { user, question } from "../../utils/api.utils";
 const { proxy } = getCurrentInstance();
 const store = useMainStore();
 const route = useRoute();
@@ -136,10 +73,12 @@ onMounted(() => {
 const userInfo = ref({});
 const getUserInfo = async (userId) => {
   let result = await proxy.Request({
-    url: user.findUserById + userId,
+    url: "/account/Info",
+    params:{
+      userId:userId,
+    }
   });
   if (!result) return;
-  result.data.createTime = proxy.TransformIsoDate(result.data.createTime);
   userInfo.value = result.data;
 };
 
@@ -149,10 +88,8 @@ const getPostByUser = async (type) => {
   // 获取问题列表
   if (type == 0) {
     let result = await proxy.Request({
-      url: question.faqListByUser,
+      url: "/QuesListByUser",
       params: {
-        page: currentPage.value,
-        pageSize: 10,
         userId: route.params.userId,
       },
     });
@@ -162,12 +99,6 @@ const getPostByUser = async (type) => {
     state.value = true;
   } else {
   }
-};
-
-const currentPage = ref(1);
-const handelPageNoChange = (pageNo) => {
-  currentPage.value = pageNo;
-  getPostByUser(activeName.value);
 };
 
 const editDialogRef = ref();
@@ -185,9 +116,7 @@ const dialogInfo = reactive({
   ],
 });
 
-const dialogHandle = () => {
-  editDialogRef.value.showDialog();
-};
+
 
 // 修改用户资料表单校验
 const userFormDataRef = ref();
@@ -208,11 +137,11 @@ const submitForm = () => {
   userFormDataRef.value.validate(async (valid) => {
     if (!valid) return;
     let result = await proxy.Request({
-      url: user.updateUserInfo,
+      url: "/updateUserInfo",
       params: userFormData.value,
     });
     if (!result) return;
-    getUserInfo(store.loginUserInfo.userId);
+    await getUserInfo(store.loginUserInfo.userId);
     editDialogRef.value.handleClose();
   });
 };

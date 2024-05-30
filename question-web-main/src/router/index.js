@@ -9,7 +9,6 @@ const router = createRouter({
       component: () => import("@/views/questionViews/QuestionListItem.vue"),
     },
     {
-      // Vue--Router--嵌套路由(children)的用法https://blog.csdn.net/feiying0canglang/article/details/126196561
       path: "/",
       name: "Layout",
       component: () => import("@/views/Layout.vue"),
@@ -20,7 +19,7 @@ const router = createRouter({
           component: () => import("@/views/questionViews/QuestionList.vue"),
         },
         {
-          path: "/faq/:boardId",
+          path: "/faq/:classificationId",
           name: "板块",
           component: () => import("@/views/questionViews/QuestionList.vue"),
         },
@@ -47,16 +46,17 @@ const router = createRouter({
         },
         {
           path: "/newPost/",
-          name: "发布文章或问题",
+          name: "发布问题",
+          component: () => import("@/views/EditPost/EditPost.vue"),
+        },
+        {
+          path: "/editPost/:questionId",
+          name: "编辑文章或问题",
           component: () => import("@/views/EditPost/EditPost.vue"),
         },
       ],
     },
-    {
-      path: "/editPost/:questionId",
-      name: "编辑文章或问题",
-      component: () => import("@/views/EditPost/EditPost.vue"),
-    },
+
   ],
 });
 

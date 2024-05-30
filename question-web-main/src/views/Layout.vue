@@ -116,11 +116,11 @@
             v-for="item in boardList"
           :class="[
             'categories-list-item',
-            item.boardId == activeBoard ? 'categories-active' : '',
+            item.id == activeBoard ? 'categories-active' : '',
           ]"
-          @click="boradClickHandler(item.boardId)"
+          @click="boradClickHandler(item.id)"
         >
-          {{ item.boardName }}
+          {{ item.classification }}
         </span>
       </span>
     </div>
@@ -142,7 +142,7 @@
   import { ref, watch, getCurrentInstance, onMounted } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import { useMainStore } from "../stores/index";
-  import { board } from "../utils/api.utils";
+
   const { proxy } = getCurrentInstance();
   const route = useRoute();
   const router = useRouter();
@@ -151,7 +151,7 @@
 const logout = () => {
   proxy.Confirm("确认退出？", () => {
     userInfo.value = {};
-    localStorage.clear("userInfo");
+    //localStorage.clear("userInfo");
     localStorage.clear("token");
     store.loginUserInfo = "";
     // 重新加载页面
@@ -162,6 +162,25 @@ const logout = () => {
 // 获取板块信息
 const boardList = ref(null);
 const getBoardList = async () => {
+  //返回内容
+  // {
+  //   "code": 200,
+  //     "msg": "success",
+  //     "data": [
+  //   {
+  //     "id": 1,
+  //     "classification": "C++"
+  //   },
+  //   {
+  //     "id": 2,
+  //     "classification": "Python"
+  //   },
+  //   {
+  //     "id": 3,
+  //     "classification": "Java"
+  //   }
+  // ]
+  // }
   let result = await proxy.Request({
     url: "/board/all",
     errorCallback: () => {
