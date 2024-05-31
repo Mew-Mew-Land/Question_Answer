@@ -3,9 +3,10 @@ import Message from "./Message.utils";
 
 const contentTypeJson = "application/json";
 
-const devUrl = "http://localhost:3000";
+//const devUrl = "http://localhost:3000";
 //const devUrl = "http://192.168.137.91:8080";
 //const devUrl = "http://192.168.137.184:8080";
+const devUrl = "http://192.168.43.195:8080";
 // 创建 axios 实例并配置基本选项
 const instance = axios.create({
   baseURL: devUrl, // 使用开发环境的 URL

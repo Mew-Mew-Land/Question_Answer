@@ -1,42 +1,45 @@
 <template>
   <div class="container-body question-detail">
     <!-- 数据加载时的骨架屏 -->
-    <el-skeleton v-if="!state" :rows="5" animated />
+<!--    <el-skeleton v-if="!state" :rows="5" animated />-->
 
     <!-- 问题详情部分 -->
     <div class="question-detail-info" v-if="state">
+
       <div class="question-main">
         <!-- 问题作者信息 -->
         <Avatar></Avatar>
         <span class="author-name">
           <RouterLink
               class="a-link"
-              :to="`/user/${questionDetail.user.userId}`"
+              :to="`/user/${questionDetail.userId}`"
           >
-            作者: {{ questionDetail.user.nickName }}
+            作者: {{ questionDetail.username }}
           </RouterLink>
         </span>
         <el-divider direction="vertical" />
-        <span>编辑于{{ questionDetail.createTime }}</span>
+        <span>编辑于{{ questionDetail.updateTime }}</span>
         <el-divider direction="vertical" />
-        <h2 class="question-title">{{ questionDetail.title }}</h2>
+        <h2 class="question-title">{{ questionDetail.question }}</h2>
 
         <!-- 问题内容 -->
         <div
             class="question-content"
             id="content"
-            v-html="questionDetail.content"
+            v-html="questionDetail.question"
         ></div>
 
         <!-- 问题操作按钮 -->
+<!--        v-if="currentUserInfo.userId === questionDetail.userId"-->
         <div class="question-action">
           <el-button
-              v-if="currentUserInfo.userId === questionDetail.user.userId"
+
               type="danger"
               @click="delQuestion()"
           >删除</el-button>
+<!--          v-if="currentUserInfo.userId === questionDetail.user.userId"-->
           <el-button
-              v-if="currentUserInfo.userId === questionDetail.user.userId"
+
               type="primary"
               @click="editQuestion()"
           >编辑</el-button>
@@ -265,15 +268,29 @@ const replyToComment = (index) => {
 
 const questionDetail = ref({});
 const getQuestionDetail = async (questionId) => {
+
+  //返回的data
+  // {
+  //   "id": 3,
+  //     "question": "111",
+  //     "classificationId": 2,
+  //     "answerNum": 0,
+  //     "isSolved": 0,
+  //     "updateTime": "2024-05-29",
+  //     "userId": 0,
+  //     "username": null,
+  //     "viewNum": 0
+  // }
   let result = await proxy.Request({
     url: "/question/questionDetail",
     params: {
-      questionId: questionId,
+      id: questionId,
     },
   });
   if (!result) return;
 
   questionDetail.value = result.data;
+  console.log(questionDetail);
   state.value = true;
 };
 
@@ -282,7 +299,7 @@ const getAnswerList = async (questionId) => {
   let result = await proxy.Request({
     url: "/home/viewAnswers",
     params: {
-        questionId: questionId,
+        id: questionId,
     },
   });
   if (!result) return;
@@ -381,18 +398,18 @@ const delAnswer = (answerId, index) => {
 };
 
 // 采纳回答的方法
-const adoptAnswer = (answerId, index) => {
+const adoptAnswer = async (answerId, index) => {
 
-    let result = await proxy.Request({
-      url: "/answer/adoptAnswer",
-      params: {
-        answerId: answerId,
-      },
-    });
-    if (!result) return;
-    proxy.Message.success("已采纳");
-    answerList.value.list[index].isAdopt = true;
-    questionDetail.value.isSolve = true;
+  let result = await proxy.Request({
+    url: "/answer/adoptAnswer",
+    params: {
+      answerId: answerId,
+    },
+  });
+  if (!result) return;
+  proxy.Message.success("已采纳");
+  answerList.value.list[index].isAdopt = true;
+  questionDetail.value.isSolve = true;
   ;
 };
 
@@ -414,11 +431,11 @@ const commentHandle = (index) => {
 // 获取评论的方法
 const getComment = async () => {};
 
-onMounted(() => {
+onMounted(() => {//432
   getQuestionDetail(route.params.questionId);
   getAnswerList(route.params.questionId);
-  currentUserInfo.value = store.loginUserInfo;
-});
+  //currentUserInfo.value = store.loginUserInfo;
+});//436
 </script>
 
 
