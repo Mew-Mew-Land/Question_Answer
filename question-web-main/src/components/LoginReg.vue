@@ -194,7 +194,7 @@ const login = () => {
     // 将用户信息和 token 存储到 localStorage 中
     //localStorage.setItem("userInfo", JSON.stringify(result.data.userInfo));
     localStorage.setItem("token", result.data.token);
-
+   console.log(localStorage);
     // 显示登录成功的提示信息
     proxy.Message.success("登录成功");
 

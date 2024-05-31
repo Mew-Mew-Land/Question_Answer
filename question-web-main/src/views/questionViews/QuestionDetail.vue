@@ -56,25 +56,25 @@
       <!-- 问题回答列表 -->
       <div class="question-answer-list">
         <div
-            :class="['answer-item', item.isAdopt ? 'isAdopt' : '']"
-            v-for="(item, index) in answerList.list"
+            class="answer-item"
+            v-for="(item, index) in answerList"
         >
           <!-- 回答者信息 -->
           <div class="answer-user-info">
             <Avatar></Avatar>
             <span class="answer-name">
-              <RouterLink class="a-link" :to="`/user/${item.user.userId}`">
-                {{ item.user.nickName }}
+              <RouterLink class="a-link" :to="`/user/${item.userId}`">
+                {{ item.username }}
               </RouterLink>
             </span>
             <el-divider direction="vertical" />
-            <span>{{ item.createTime }}</span>
+            <span>{{ item.updateTime }}</span>
           </div>
-
-          <!-- 采纳标志 -->
-          <div v-if="item.isAdopt" class="answer-solvestate">
-            <span class="iconfont icon-wancheng1">已被采纳</span>
-          </div>
+<!--先不做-->
+<!--          &lt;!&ndash; 采纳标志 &ndash;&gt;-->
+<!--          <div v-if="item.isAdopt" class="answer-solvestate">-->
+<!--            <span class="iconfont icon-wancheng1">已被采纳</span>-->
+<!--          </div>-->
 
           <!-- 回答内容 -->
           <div class="answer-content" v-html="item.content"></div>
@@ -83,26 +83,29 @@
           <div class="answer-action">
             <el-button type="primary"><i class="iconfont icon-good"></i>点赞</el-button>
             <el-button type="primary"><i class="iconfont icon-huifu"></i>评论</el-button>
+<!--            v-if="currentUserInfo.userId === item.user.userId"-->
             <el-button
-                v-if="currentUserInfo.userId === item.user.userId"
+
                 type="primary"
                 style="background-color: var(--mainColor)"
                 @click="editAnswer(item)"
             >
               <i class="iconfont icon-bianji"></i>编辑
             </el-button>
+<!--            v-if="-->
+<!--            currentUserInfo.userId === questionDetail.user.userId &&-->
+<!--            !questionDetail.isSolve-->
+<!--            "-->
             <el-button
                 type="primary"
-                v-if="
-                currentUserInfo.userId === questionDetail.user.userId &&
-                !questionDetail.isSolve
-              "
+
                 @click="adoptAnswer(item.answerId, index)"
             >
               <i class="iconfont icon-wancheng1"></i>采纳
             </el-button>
+<!--            v-if="currentUserInfo.userId === item.user.userId"-->
             <el-button
-                v-if="currentUserInfo.userId === item.user.userId"
+
                 type="danger"
                 @click="delAnswer(item.answerId, index)"
             >
@@ -206,7 +209,7 @@
           </template>
           <el-form-item prop="content" label-width="0">
             <EditorMarkdown
-                v-model="answerData.markdownContent"
+                v-model="answerData.content"
                 @htmlContent="setHtmlContent"
             ></EditorMarkdown>
           </el-form-item>
@@ -296,6 +299,18 @@ const getQuestionDetail = async (questionId) => {
 
 const answerList = ref({});
 const getAnswerList = async (questionId) => {
+  //返回的data
+  // {
+  //   "id": 1,
+  //     "question": "woshishei",
+  //     "classificationId": 1,
+  //     "answerNum": 0,
+  //     "isSolved": 0,
+  //     "updateTime": "2024-05-28",
+  //     "userId": 0,
+  //     "username": null,
+  //     "viewNum": 0
+  // }
   let result = await proxy.Request({
     url: "/home/viewAnswers",
     params: {
@@ -312,20 +327,20 @@ const delQuestion = async () => {
     let result = proxy.Request({
       url: "/deleteQuestion",
       params: {
-        questionId: questionDetail.value.questionId,
+        id: questionDetail.value.id,
       },
     });
-    if (!result) {
-      proxy.Message.error("删除失败");
-      return;
-    }
+if(result.code==0){
+  proxy.Message.success("这不是你的问题");
+}
     proxy.Message.success("删除成功");
     await router.push("/");
+
   ;
 };
 
 const editQuestion = () => {
-  router.push(`/editPost/${questionDetail.value.questionId}`);
+  router.push(`/editPost/${questionDetail.value.id}`);
 };
 
 const rules = reactive({
@@ -342,18 +357,18 @@ const createAnswer = () => {
   drawer.value = true;
   editPostState.value = 0;
   answerData.value = {
-    markdownContent: "",
+    content: "",
   };
 };
 
 const answerData = ref({});
 const answerDataRef = ref();
 const postAnswer = () => {
-  let api =  "/AnswerQues/";
+  let api =  "/AnswerQues";
   if (editPostState.value) {
     api = "/answer/updateAnswer";
   } else {
-    api = "/AnswerQues/";
+    api = "/AnswerQues";
   }
 
   answerDataRef.value.validate(async (valid) => {
@@ -362,15 +377,17 @@ const postAnswer = () => {
       return;
     }
     let params = {};
+    //接口
     Object.assign(params, answerData.value);
-    params.questionId = questionDetail.value.questionId;
+    params.questionId = questionDetail.value.id;
     let result = await proxy.Request({
       url: api,
       params: params,
     });
+
     if (!result) return;
     proxy.Message.success("发送成功");
-    await getAnswerList(questionDetail.value.questionId);
+    await getAnswerList(questionDetail.value.id);
     answerData.value.markdownContent = "";
     drawer.value = false;
   });
@@ -382,22 +399,21 @@ const setHtmlContent = (htmlContent) => {
 };
 
 // 删除回答的方法
-const delAnswer = (answerId, index) => {
-  proxy.Confirm("确认删除你的回答？", async () => {
-    let result = await proxy.Request({
-      url: "/deleteAnswer",
-      params: {
-        answerId: answerId,
-        questionId: questionDetail.value.questionId,
-      },
-    });
-    if (!result) return;
-    proxy.Message.success("删除成功");
-    answerList.value.list.splice(index, 1);
+const delAnswer = async (answerId, index) => {
+
+  let result = await proxy.Request({
+    url: "/deleteAnswer",
+    params: {
+      id: answerId,
+      questionId: questionDetail.value.id,
+    },
   });
+  if (!result) return;
+  proxy.Message.success("删除成功");
+
 };
 
-// 采纳回答的方法
+// 采纳回答的方法(先不做)
 const adoptAnswer = async (answerId, index) => {
 
   let result = await proxy.Request({
@@ -408,8 +424,8 @@ const adoptAnswer = async (answerId, index) => {
   });
   if (!result) return;
   proxy.Message.success("已采纳");
-  answerList.value.list[index].isAdopt = true;
-  questionDetail.value.isSolve = true;
+  // answerList.value[index].isAdopt = true;
+  // questionDetail.value.isSolve = true;
   ;
 };
 
@@ -420,14 +436,6 @@ const editAnswer = (item) => {
   Object.assign(answerData.value, item);
 };
 
-// 处理评论的方法
-const commentHandle = (index) => {
-  answerList.value.list.forEach((element) => {
-    element.showReply = false;
-  });
-  answerList.value.list[index].showReply = true;
-};
-
 // 获取评论的方法
 const getComment = async () => {};
 
@@ -435,7 +443,7 @@ onMounted(() => {//432
   getQuestionDetail(route.params.questionId);
   getAnswerList(route.params.questionId);
   //currentUserInfo.value = store.loginUserInfo;
-});//436
+});
 </script>
 
 

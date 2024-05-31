@@ -19,7 +19,7 @@
       <div class="faq-list" v-else>
         <div v-for="(item, index) in questionData" :key="index">
           <div class="faq-list-item">
-            <!-- 回答与阅读统计面板 -->
+            <!-- 面板 -->
             <div class="num-tips-container">
               <div class="read-num">
                 <img src="@/icon/9fcef5305e65ab4288ff910a7fbb1696.png" alt="Description of the image" />
@@ -201,13 +201,16 @@ const changeTab = (tab) => {
 };
 
 
-
+onMounted(() => {
+  // 初始获取问题列表
+  getQuestionList(0);
+});
 // 监视路由参数的变化
 watch(
     () => route.params,
     (newVal, oldVal) => {
-      const boardId = newVal.classificationId ?? 0;  // 如果 boardId 为空则传入 0
-      getQuestionList(boardId);
+      const classificationId = newVal.classificationId ?? 0;  // 如果 boardId 为空则传入 0
+      getQuestionList(classificationId);
       userInfo.value = store.loginUserInfo;
     },
     { immediate: true, deep: true }

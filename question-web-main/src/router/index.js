@@ -3,11 +3,7 @@ const router = createRouter({
   linkActiveClass: "a-active",
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/testQuestionList",
-      name: "所有问题",
-      component: () => import("@/views/questionViews/QuestionListItem.vue"),
-    },
+
     {
       path: "/",
       name: "Layout",
@@ -39,11 +35,7 @@ const router = createRouter({
           name: "搜索",
           component: () => import("@/views/Search/Search.vue"),
         },
-        {
-          path: "/userMessage",
-          name: "消息",
-          component: () => import("@/views/userCenter/UserMessage.vue"),
-        },
+
         {
           path: "/newPost/",
           name: "发布问题",

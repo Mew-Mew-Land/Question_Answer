@@ -149,20 +149,20 @@
   const store = useMainStore();
 
 const logout = () => {
-  proxy.Confirm("确认退出？", () => {
+
     userInfo.value = {};
     //localStorage.clear("userInfo");
     localStorage.clear("token");
     store.loginUserInfo = "";
     // 重新加载页面
     // location.reload();
-  });
+  ;
 };
 
 // 获取板块信息
 const boardList = ref(null);
 const getBoardList = async () => {
-  //返回内容
+  //返回data内容
   // {
   //   "code": 200,
   //     "msg": "success",

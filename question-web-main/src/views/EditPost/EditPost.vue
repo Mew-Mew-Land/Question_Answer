@@ -48,7 +48,7 @@
           <el-form-item prop="content" label-width="0">
             <el-input
                 type="textarea"
-                v-model="formData.content"
+                v-model="formData.question"
                 placeholder="请输入正文内容"
                 :autosize="{ minRows: 15, maxRows: 20 }"
             />
@@ -88,7 +88,7 @@ const rules = reactive({
       message: "请输入标题",
     },
   ],
-  boardId: [{ required: true, message: "请选择板块", trigger: "blur" }],
+  classificationId: [{ required: true, message: "请选择板块", trigger: "blur" }],
 });
 
 const editorType = ref(1);
@@ -101,6 +101,8 @@ const boardList = ref([]);
 const getBoardList = async () => {
   let result = await proxy.Request({
     url: "/board/all",
+    params:{
+    },
     errorCallback: () => {
       proxy.Message.error("查询板块失败");
     },
@@ -124,7 +126,7 @@ const post = () => {
     });
     if (!result) return;
     proxy.Message.success("发布成功");
-    await router.push("/faqDetail/" + result.data.result.questionId);
+    await router.push("/faqDetail/" + result.data.id);
   });
 };
 
