@@ -4,7 +4,7 @@ export const useMainStore = defineStore("main", {
   state: () => {
     return {
       // 用户信息
-      loginUserInfo: JSON.parse(localStorage.getItem("userInfo")) || "",
+      loginUserInfo: [],
       // 用户登录
       showLogin: false,
       // 板块信息

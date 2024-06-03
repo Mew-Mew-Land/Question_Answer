@@ -72,6 +72,13 @@ onMounted(() => {
 // 用户信息
 const userInfo = ref({});
 const getUserInfo = async (userId) => {
+  //{
+//   "id": 1,
+//       "username": "111",
+//       "password": null,
+//       "accountName": "323232",
+//       "avatar": 0
+// }
   let result = await proxy.Request({
     url: "/account/Info",
     params:{
@@ -86,6 +93,41 @@ const getUserInfo = async (userId) => {
 const userPostList = ref({});
 const getPostByUser = async (type) => {
   // 获取问题列表
+  //[
+//   {
+//     "id": 9,
+//       "question": "woshumo",
+//       "classificationId": 0,
+//       "answerNum": 0,
+//       "isSolved": 0,
+//       "updateTime": "2024-06-01",
+//       "userId": 0,
+//       "username": null,
+//       "viewNum": 0
+//   },
+//   {
+//     "id": 10,
+//       "question": "你是?",
+//       "classificationId": 1,
+//       "answerNum": 0,
+//       "isSolved": 0,
+//       "updateTime": "2024-06-01",
+//       "userId": 0,
+//       "username": null,
+//       "viewNum": 0
+//   },
+//   {
+//     "id": 11,
+//       "question": "测试",
+//       "classificationId": 1,
+//       "answerNum": 0,
+//       "isSolved": 0,
+//       "updateTime": "2024-06-01",
+//       "userId": 0,
+//       "username": null,
+//       "viewNum": 0
+//   }
+// ]
   if (type == 0) {
     let result = await proxy.Request({
       url: "/QuesListByUser",
