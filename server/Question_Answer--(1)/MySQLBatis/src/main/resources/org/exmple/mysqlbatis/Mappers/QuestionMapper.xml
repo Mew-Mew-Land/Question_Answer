@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.exmple.mysqlbatis.Mappers.QuestionMapper">
+    <sql id="QuestionSearch">
+        select id, question, classificationId, answerNum, isSolved,viewNum ,updateTime, userId from question
+    </sql>
+    <insert id="insertQuestion" useGeneratedKeys="true" keyProperty="id">
+        insert into question(classificationId,question,UserID,answerNum,updateTime) values(
+        <if test="classificationId!=null">
+            #{classificationId},
+        </if>
+        #{question},#{userId}
+        <if test="answerNum!=null">
+            ,#{answerNum}
+        </if>
+
+            ,NOW()
+
+        );
+    </insert>
+
+    <update id="updateQuestion">
+        update question set
+        <if test="question!=null">
+            question=#{question},
+        </if>
+        updateTime=now()
+        <where>
+             id=#{id};
+        </where>
+    </update>
+
+    <update id="updateQuestionInfo">
+        update question set answerNum=#{answerNum},isSolved=#{isSolved}
+        <where>
+            id=#{id};
+        </where>
+    </update>
+    <update id="updateViewNum">
+        update question set ViewNum=ViewNum+1
+        <where>
+            id=#{id};
+        </where>
+    </update>
+
+    <delete id="deleteQuestion">
+        DELETE
+        FROM question
+        WHERE id = #{id};
+
+
+    </delete>
+
+    <delete id="deleteAnswerOfQuestion">
+        DELETE
+        FROM answers
+        WHERE questionId = #{id};
+    </delete>
+
+    <delete id="deleteCommentsOfQuestionAnswer">
+        DELETE
+        FROM comments
+        WHERE answerId IN (SELECT id FROM answers WHERE questionId = #{id});
+    </delete>
+
+    <select id="getByQuesID" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    <select id="getByUserID" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch"> 
+        </include>
+        <where>
+            userId=#{id}
+        </where>
+    </select>
+    <select id="getByQuesIDInBatch" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <foreach collection="Ids" item="id" separator="," open="(" close=")">
+            <where>
+                id=#{id}
+            </where>
+        </foreach>
+    </select>
+    <select id="getByQuestion" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+        <where>
+            question=#{question}
+        </where>
+    </select>
+
+    <select id="getFaqList" resultType="org.exmple.mysqlbatis.entity.Question">
+         <include refid="QuestionSearch">
+         </include>
+        <where>
+            classificationId=#{classificationId};
+        </where>
+    </select>
+
+    <select id="getAllFaqList" resultType="org.exmple.mysqlbatis.entity.Question">
+        <include refid="QuestionSearch">
+        </include>
+    </select>
+
+    <select id="getQuestionDetail" resultType="org.exmple.mysqlbatis.entity.Question">
+        select id, question, classificationId, answerNum, isSolved,viewNum userid,updateTime from question
+        where id=#{id}
+    </select>
+
+    <select id="getQuesListByUser" resultType="org.exmple.mysqlbatis.entity.Question">
+        select id, question, classificationId, answerNum, isSolved,viewNum,updateTime from question
+        where userid=#{id};
+    </select>
+</mapper>

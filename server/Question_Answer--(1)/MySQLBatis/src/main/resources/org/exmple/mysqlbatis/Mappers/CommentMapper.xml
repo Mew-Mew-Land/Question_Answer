@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.exmple.mysqlbatis.Mappers.CommentMapper">
+
+
+    <select id="getComment" resultType="org.exmple.mysqlbatis.entity.Comment">
+        select * from comments where answerID=#{answerId}
+    </select>
+</mapper>
