@@ -8,8 +8,6 @@ import "element-plus/dist/index.css";
 
 // 导入全局组件
 import Avatar from "./components/Avatar.vue";
-import EditorMarkdown from "./components/EditorMarkdown.vue";
-
 
 // 全局方法
 import message from "./utils/Message.utils.js";
@@ -26,7 +24,6 @@ app.config.globalProperties.Request = request;
 app.config.globalProperties.Validate = Validate;
 // 调用全局组件
 app.component("Avatar", Avatar);
-app.component("EditorMarkdown", EditorMarkdown);
 
 app.use(pinia);
 app.use(router);

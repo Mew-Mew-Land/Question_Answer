@@ -8,6 +8,7 @@ import org.exmple.mysqlbatis.entity.Result;
 import org.exmple.mysqlbatis.entity.User;
 import org.exmple.mysqlbatis.service.AnswerServant;
 import org.exmple.mysqlbatis.service.QuestionServant;
+import org.exmple.mysqlbatis.service.UserServant;
 import org.exmple.mysqlbatis.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class QuestionController {
     private QuestionServant questionServant;
     @Autowired
     private AnswerServant answerServant;
+    @Autowired
+    private UserServant userServant;
 
     @PostMapping("/home")
     public Result getContent(@RequestHeader("token") String token){
@@ -40,7 +43,6 @@ public class QuestionController {
         ques.setUsername(user.getUsername());
         log.info(String.valueOf("quesController.submitQues:"+ques.getUsername()));
         Question res=questionServant.createQuestion(ques);
-
         if(res!=null)
         return Result.success(res);
         else return Result.error("提交失败");
@@ -89,9 +91,12 @@ public class QuestionController {
     }
 
     @PostMapping("/question/questionDetail")//获取问题的详细信息
-    public Result getQuestionDetail(@RequestBody Question question){
+    public Result getQuestionDetail(@RequestBody Question question,@RequestHeader("token") String token){
         log.info("正在查看问题:{}",question.getId(),"的全部信息");
-        return Result.success(questionServant.getQuestionDetail(question.getId()));
+        Question ReQuestion= questionServant.getQuestionDetail(question.getId());
+        User user=userServant.searchUser(ReQuestion.getUserId());
+        ReQuestion.setUsername(user.getUsername());
+        return Result.success(ReQuestion);
     }
 
     @PostMapping("/QuesListByUser")//获取某个人发布的全部信息

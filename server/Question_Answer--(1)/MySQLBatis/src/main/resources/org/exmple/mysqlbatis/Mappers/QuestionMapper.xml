@@ -110,7 +110,7 @@
     </select>
 
     <select id="getQuestionDetail" resultType="org.exmple.mysqlbatis.entity.Question">
-        select id, question, classificationId, answerNum, isSolved,viewNum userid,updateTime from question
+        select id, question, classificationId, answerNum, isSolved,viewNum userId,updateTime from question
         where id=#{id}
     </select>
 

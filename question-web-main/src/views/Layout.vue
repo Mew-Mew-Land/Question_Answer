@@ -255,9 +255,9 @@ onMounted(() => {
 });
 
   watch(
-      () => route.params.boardId,
+      () => route.params.classificationId,
       (newVal, oldVal) => {
-        store.boardId = newVal;
+        store.classificationId = newVal;
         activeBoard.value = newVal;
       },
       { immediate: true, deep: true }

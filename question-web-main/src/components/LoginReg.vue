@@ -47,7 +47,7 @@
         </el-form-item>
 
         <el-form-item label="昵称" prop="nickName" v-if="opType == 1">
-          <el-input placeholder="请输入昵称" v-model="formData.nickName" />
+          <el-input placeholder="请输入昵称" v-model="formData.accountName" />
         </el-form-item>
 
 
@@ -159,13 +159,7 @@ const rules = reactive({
 
 
 // 登录
-const login = () => {
-  formDataRef.value.validate(async (vaild) => {
-    if (!vaild) {
-      proxy.Message.warning("请输入内容！");
-      return;
-    }
-//返回data内容
+//登录返回data内容
 //     {
 //       "code": 200,
 //         "msg": "success",
@@ -173,40 +167,77 @@ const login = () => {
 //       "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiYXZhdGFyIjowLCJ1c2VybmFtZSI6IjExMSIsImp0aSI6IjNhNmJiY2I5LWZlZTUtNDYzZi1iYzQyLTg0YTI5MzdiZjVjMCIsImV4cCI6MTcxNzA3OTQ0NiwiaWF0IjoxNzE3MDc1ODQ2LCJzdWIiOiJQZXJpcGhlcmFscyIsImlzcyI6IlRpYW0ifQ.8MqpMPKT0myH_KVTro-o7XLxZkA7PU17gNLRVJBrGqQ"
 //     }
 //     }
-    let result = await proxy.Request({
+const login = async () => {
+  // 首先验证表单数据是否有效
+  const valid = await formDataRef.value.validate();
+  if (!valid) {
+    proxy.Message.warning("请输入内容！");
+    return;
+  }
+
+  try {
+    const loginResult = await proxy.Request({
       url: "/account/login",
       params: {
-        username: formData.account,   
+        username: formData.account,
         password: formData.password,
       },
-      dataType: "json",
-      errorCallback: () => {
-        proxy.Message.error("登录失败");
+    });
+
+    if (loginResult && loginResult.data) {
+      // 存储 token 到 localStorage
+      localStorage.setItem("token", loginResult.data.token);
+
+      // 显示登录成功的提示信息
+      proxy.Message.success("登录成功");
+
+      // 立即获取用户详细信息
+      const userInfoResult = await fetchUserInfo();
+      if (userInfoResult) {
+        // 更新 Vuex store 的状态
+        store.loginUserInfo = userInfoResult;
+        // 隐藏登录窗口
+        store.showLogin = false;
+      } else {
+        throw new Error("Failed to fetch user info");
+      }
+    } else {
+      throw new Error("No data returned on login");
+    }
+  } catch (error) {
+    // 处理登录或获取用户信息过程中的错误
+    proxy.Message.error(error.message || "登录失败");
+  } finally {
+    // 无论成功或失败，清空表单
+    restForm();
+  }
+};
+//{
+//   "id": 1,
+//       "username": "111",
+//       "password": null,
+//       "accountName": "323232",
+//       "avatar": 0
+// }
+// 功能：获取用户详细信息
+const fetchUserInfo = async () => {
+  try {
+    const result = await proxy.Request({
+      url: "/account/Info",
+      params: {
       },
     });
-    console.log("1");
-    if (!result) return;
 
-    // // 对返回的用户信息进行处理，转换 ISO 格式的时间为可读格式
-    // result.data.userInfo.createTime = proxy.TransformIsoDate(result.data.userInfo.createTime);
-    // result.data.userInfo.updateTime = proxy.TransformIsoDate(result.data.userInfo.updateTime);
-
-    // 将用户信息和 token 存储到 localStorage 中
-    //localStorage.setItem("userInfo", JSON.stringify(result.data.userInfo));
-    localStorage.setItem("token", result.data.token);
-   console.log(localStorage);
-    // 显示登录成功的提示信息
-    proxy.Message.success("登录成功");
-
-    // 隐藏登录窗口，更新登录状态和用户信息
-    store.showLogin = false;
-    store.loginUserInfo = result.data.userInfo;
-
-    // 清空表单数据
-    restForm();
-  });
-
-
+    if (result && result.data) {
+      return result.data;
+    } else {
+      console.error('No data received from the server');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching account info:', error);
+    return null;
+  }
 };
 
 // 注册

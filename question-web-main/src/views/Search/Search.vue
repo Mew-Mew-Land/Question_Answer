@@ -7,7 +7,6 @@
       <div class="faq-list">
         <div v-for="(item, index) in searchData" :key="index">
           <div class="faq-list-item">
-            <!-- 面板 -->
             <div class="num-tips-container">
               <div class="read-num">
                 <img src="@/icon/9fcef5305e65ab4288ff910a7fbb1696.png" alt="Description of the image" />

@@ -7,11 +7,11 @@
           <Avatar :width="120"></Avatar>
         </div>
         <!-- 用户名称 -->
-        <h3>{{ userInfo.nickName }}</h3>
+        <h3>{{ userInfo.accountName }}</h3>
         <div class="user-data">
           <div class="data-item">
             <span class="iconfont icon-chengshi"></span>
-            <span>{{ userInfo.city }}</span>
+            <span>其他信息</span>
           </div>
           <div class="data-item">
             <span class="iconfont icon-shijian"></span>
@@ -19,14 +19,14 @@
           </div>
           <div class="data-item">
             <span class="iconfont icon-gonggao"></span>
-            <span>{{ userInfo.introduction }}</span>
+            <span>用户简介</span>
           </div>
         </div>
         <div class="user-oper">
           <el-button
             type="primary"
             style="background-color: var(--mainColor)"
-            @click="dialogHandle()"
+
             >修改资料</el-button
           >
           <el-button type="primary">关注他</el-button>
@@ -36,17 +36,43 @@
       </div>
     </div>
     <div class="user-penal-right">
-      <el-tabs v-model="activeName" class="user-tabs" @tab-click="handleClick">
+      <el-tabs v-model="activeName" class="user-tabs">
         <el-tab-pane label="提问" name="0"></el-tab-pane>
       </el-tabs>
-      <el-skeleton v-if="!state" :rows="5" animated />
-       <div class="datalist" v-else>
-        <div class="list-item" v-for="item in userPostList.list">
- //把问题列表再写一遍
-        </div>
 
-      </div>
-      <div class="faq-list" v-else>
+      <div class="faq-list" >
+        <div class="datalist">
+          <div class="list-item" v-for="item in userPostList">
+
+            <div class="faq-list-item">
+              <div class="num-tips-container">
+                <div class="read-num">
+                  <img src="@/icon/9fcef5305e65ab4288ff910a7fbb1696.png" alt="Description of the image" />
+                </div>
+              </div>
+              <div class="question-item">
+                <div class="title">
+                  <RouterLink :to="`/faqDetail/${item.id}`" class="a-link">
+                    {{ item.question }}
+                  </RouterLink>
+                </div>
+                <div class="userInfo">
+                  <div class="author">
+                    作者名
+                    <el-divider direction="vertical"></el-divider>
+                    {{ item.question }}
+                  </div>
+                  <span class="board">
+                   <RouterLink :to="`/faqDetail/${item.id}`" class="a-link">
+                    查看详情
+                  </RouterLink>
+                </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -92,7 +118,7 @@ const getUserInfo = async (userId) => {
 // 获取用户发表的文章
 const userPostList = ref({});
 const getPostByUser = async (type) => {
-  // 获取问题列表
+  // 获取问题列表,返回的data数据
   //[
 //   {
 //     "id": 9,

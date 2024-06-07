@@ -33,14 +33,14 @@
               </div>
               <div class="userInfo">
                 <div class="author">
-                  作者名
+                  作者：{{ item.username }}
                   <el-divider direction="vertical"></el-divider>
-                  {{ item.question }}
+                  {{ item.updateTime }}
                 </div>
                 <span class="board">
-                  <RouterLink class="a-link" :to="`/faq/${item.classificationId}`">
-                    查看详情
-                  </RouterLink>
+                <RouterLink :to="`/faqDetail/${item.id}`" class="a-link">
+                查看详情
+                </RouterLink>
                 </span>
               </div>
             </div>
@@ -224,7 +224,7 @@ watch(
     { immediate: true, deep: true }
 );
 
-onMounted(() => {});
+
 </script>
 
 <style lang="scss">

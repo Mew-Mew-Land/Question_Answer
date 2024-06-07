@@ -10,6 +10,12 @@ const router = createRouter({
       component: () => import("@/views/Layout.vue"),
       children: [
         {
+          path: "/login",
+          name: "登录界面",
+          component: () => import("@/views/LoginView.vue"),
+        },
+        {
+
           path: "/",
           name: "所有问题",
           component: () => import("@/views/questionViews/QuestionList.vue"),

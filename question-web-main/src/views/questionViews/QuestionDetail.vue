@@ -14,7 +14,7 @@
               class="a-link"
               :to="`/user/${questionDetail.userId}`"
           >
-            作者: {{ questionDetail.username }}
+            作者: {{ questionDetail.userId }}
           </RouterLink>
         </span>
         <el-divider direction="vertical" />
@@ -70,11 +70,7 @@
             <el-divider direction="vertical" />
             <span>{{ item.updateTime }}</span>
           </div>
-<!--先不做-->
-<!--          &lt;!&ndash; 采纳标志 &ndash;&gt;-->
-<!--          <div v-if="item.isAdopt" class="answer-solvestate">-->
-<!--            <span class="iconfont icon-wancheng1">已被采纳</span>-->
-<!--          </div>-->
+
 
           <!-- 回答内容 -->
           <div class="answer-content" v-html="item.content"></div>
@@ -83,19 +79,16 @@
           <div class="answer-action">
             <el-button type="primary"><i class="iconfont icon-good"></i>点赞</el-button>
             <el-button type="primary"><i class="iconfont icon-huifu"></i>评论</el-button>
-<!--            v-if="currentUserInfo.userId === item.user.userId"-->
-            <el-button
 
+            <el-button
+                        v-if="currentUserInfo.userId === item.userId"
                 type="primary"
                 style="background-color: var(--mainColor)"
                 @click="editAnswer(item)"
             >
               <i class="iconfont icon-bianji"></i>编辑
             </el-button>
-<!--            v-if="-->
-<!--            currentUserInfo.userId === questionDetail.user.userId &&-->
-<!--            !questionDetail.isSolve-->
-<!--            "-->
+
             <el-button
                 type="primary"
 
@@ -103,9 +96,9 @@
             >
               <i class="iconfont icon-wancheng1"></i>采纳
             </el-button>
-<!--            v-if="currentUserInfo.userId === item.user.userId"-->
-            <el-button
 
+            <el-button
+                        v-if="currentUserInfo.userId === item.userId"
                 type="danger"
                 @click="delAnswer(item.answerId, index)"
             >
@@ -134,19 +127,22 @@
 
           <!-- 新评论输入框 -->
           <div class="new-comment">
-            <el-form :model="newComment" @submit.native.prevent="submitComment">
-              <el-form-item label="评论内容">
+            <el-form :rules="rules" :model="answerData" ref="answerDataRef" @submit.native.prevent="postAnswer">
+              <el-form-item prop="content" label="评论内容">
                 <el-input
                     type="textarea"
-                    v-model="newComment.text"
-                    placeholder="写下你的评论"
+                    v-model="answerData.content"
+                    :autosize="{ minRows: 2, maxRows: 4 }"
+                    placeholder="请输入内容"
                 ></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitComment">提交评论</el-button>
+                <el-button type="primary" @click="postAnswer">提交评论</el-button>
               </el-form-item>
             </el-form>
           </div>
+
+
         </div>
       </div>
     </div>
@@ -187,36 +183,7 @@
   </div>
 
   <!-- 回答编辑抽屉 -->
-  <el-drawer v-model="drawer" :with-header="false" direction="btt" size="60%">
-    <div class="answer-main">
-      <el-form
-          :rules="rules"
-          :model="answerData"
-          ref="answerDataRef"
-          class="post-pannel"
-          label-width="60px"
-      >
-        <el-card :body-style="{ padding: '0' }" style="box-shadow: none">
-          <template #header>
-            <div class="answer-title">
-              <span>{{ questionDetail.title }}</span>
-              <el-button
-                  type="primary"
-                  style="background-color: var(--mainColor)"
-                  @click="postAnswer()"
-              >{{ editPostState ? "保存编辑" : "提交回答" }}</el-button>
-            </div>
-          </template>
-          <el-form-item prop="content" label-width="0">
-            <EditorMarkdown
-                v-model="answerData.content"
-                @htmlContent="setHtmlContent"
-            ></EditorMarkdown>
-          </el-form-item>
-        </el-card>
-      </el-form>
-    </div>
-  </el-drawer>
+
 </template>
 
 <script setup>
@@ -355,7 +322,6 @@ const createAnswer = () => {
     return;
   }
   drawer.value = true;
-  editPostState.value = 0;
   answerData.value = {
     content: "",
   };
@@ -365,11 +331,6 @@ const answerData = ref({});
 const answerDataRef = ref();
 const postAnswer = () => {
   let api =  "/AnswerQues";
-  if (editPostState.value) {
-    api = "/answer/updateAnswer";
-  } else {
-    api = "/AnswerQues";
-  }
 
   answerDataRef.value.validate(async (valid) => {
     if (!valid) {
@@ -413,28 +374,8 @@ const delAnswer = async (answerId, index) => {
 
 };
 
-// 采纳回答的方法(先不做)
-const adoptAnswer = async (answerId, index) => {
 
-  let result = await proxy.Request({
-    url: "/answer/adoptAnswer",
-    params: {
-      answerId: answerId,
-    },
-  });
-  if (!result) return;
-  proxy.Message.success("已采纳");
-  // answerList.value[index].isAdopt = true;
-  // questionDetail.value.isSolve = true;
-  ;
-};
 
-const editPostState = ref(0);
-const editAnswer = (item) => {
-  editPostState.value = 1;
-  drawer.value = true;
-  Object.assign(answerData.value, item);
-};
 
 // 获取评论的方法
 const getComment = async () => {};
@@ -582,8 +523,8 @@ onMounted(() => {//432
         margin-bottom: 10px;
       }
       .comment-content {
-        width: 300px;
-        height: 50px;
+        width: 300px; // 确保评论内容有足够的显示空间
+        min-height: 50px; // 增加最小高度以确保可见性
       }
       .comment-action {
         display: flex;
@@ -594,6 +535,13 @@ onMounted(() => {//432
   }
   .new-comment {
     margin-top: 20px;
+    el-input {
+      min-height: 100px; // 设置输入框的最小高度
+      width: 100%; // 设置输入框宽度为100%，以填满容器
+      border: 1px solid #c1c1c1; // 添加边框以增强可见性
+      padding: 10px; // 增加内边距
+    }
   }
 }
 </style>
+
