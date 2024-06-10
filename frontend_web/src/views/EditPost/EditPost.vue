@@ -28,9 +28,9 @@
               <el-button
                   type="primary"
                   style="background-color: var(--mainColor)"
-                  @click="post()"
+                  @click="isEdit ? updateQuestion() : post()"
               >
-                发布
+                {{ isEdit ? "编辑" : "发布" }}
               </el-button>
             </div>
           </template>
@@ -63,7 +63,6 @@
 import { ref, getCurrentInstance, watch, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useMainStore } from "../../stores/index";
-
 
 const store = useMainStore();
 const { proxy } = getCurrentInstance();
@@ -135,14 +134,14 @@ const getQuestionDetail = async () => {
   let result = await proxy.Request({
     url: "/question/questionDetail",
     params: {
-      questionId: questionId.value,
+      id: questionId.value,
     },
   });
   if (!result) return;
   formData.value.title = result.data.title;
-  formData.value.content = result.data.content;
-  formData.value.questionId = result.data.questionId;
-  formData.value.boardId = result.data.board.boardId;
+  formData.value.question = result.data.question;
+  formData.value.id = result.data.id;
+  formData.value.classificationId = result.data.classificationId;
 };
 
 const updateQuestion = () => {
@@ -151,12 +150,12 @@ const updateQuestion = () => {
     let params = {};
     Object.assign(params, formData.value);
     let result = await proxy.Request({
-      url: "/question/update",
+      url: "/home/submitQues/modify",
       params: params,
     });
     if (!result) return;
     proxy.Message.success("修改成功");
-    router.push("/faqDetail/" + formData.value.questionId);
+    await router.push("/faqDetail/" + formData.value.id);
   });
 };
 
@@ -173,7 +172,6 @@ watch(
     { immediate: true, deep: true }
 );
 </script>
-
 <style lang="scss">
 .edit-post {
   position: absolute;

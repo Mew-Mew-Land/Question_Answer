@@ -1,10 +1,8 @@
 <template>
   <div class="container-body question-detail">
-    <!-- 数据加载时的骨架屏 -->
-<!--    <el-skeleton v-if="!state" :rows="5" animated />-->
 
     <!-- 问题详情部分 -->
-    <div class="question-detail-info" v-if="state">
+    <div class="question-detail-info" >
 
       <div class="question-main">
         <!-- 问题作者信息 -->
@@ -14,7 +12,7 @@
               class="a-link"
               :to="`/user/${questionDetail.userId}`"
           >
-            作者: {{ questionDetail.userId }}
+            作者: {{ questionDetail.accountName }}
           </RouterLink>
         </span>
         <el-divider direction="vertical" />
@@ -30,16 +28,16 @@
         ></div>
 
         <!-- 问题操作按钮 -->
-<!--        v-if="currentUserInfo.userId === questionDetail.userId"-->
+
         <div class="question-action">
           <el-button
-
+                            v-if="store.loginUserInfo.id === questionDetail.userId"
               type="danger"
               @click="delQuestion()"
           >删除</el-button>
-<!--          v-if="currentUserInfo.userId === questionDetail.user.userId"-->
-          <el-button
 
+          <el-button
+              v-if="store.loginUserInfo.id === questionDetail.userId"
               type="primary"
               @click="editQuestion()"
           >编辑</el-button>
@@ -64,7 +62,7 @@
             <Avatar></Avatar>
             <span class="answer-name">
               <RouterLink class="a-link" :to="`/user/${item.userId}`">
-                {{ item.username }}
+                {{ item.accountName }}
               </RouterLink>
             </span>
             <el-divider direction="vertical" />
@@ -79,9 +77,10 @@
           <div class="answer-action">
             <el-button type="primary"><i class="iconfont icon-good"></i>点赞</el-button>
             <el-button type="primary"><i class="iconfont icon-huifu"></i>评论</el-button>
+<!--            currentUserInfo里面存的是id，怎么这里返回就是userId-->
 
             <el-button
-                        v-if="currentUserInfo.userId === item.userId"
+                        v-if="store.loginUserInfo.id === item.userId"
                 type="primary"
                 style="background-color: var(--mainColor)"
                 @click="editAnswer(item)"
@@ -91,16 +90,16 @@
 
             <el-button
                 type="primary"
-
+                v-if="currentUserInfo.id === questionDetail.userId"
                 @click="adoptAnswer(item.answerId, index)"
             >
               <i class="iconfont icon-wancheng1"></i>采纳
             </el-button>
 
             <el-button
-                        v-if="currentUserInfo.userId === item.userId"
+                        v-if="currentUserInfo.id === item.userId"
                 type="danger"
-                @click="delAnswer(item.answerId, index)"
+                @click="delAnswer(item.id, index)"
             >
               <i class="iconfont icon-shanchu"></i>删除
             </el-button>
@@ -297,13 +296,16 @@ const delQuestion = async () => {
         id: questionDetail.value.id,
       },
     });
-if(result.code==0){
-  proxy.Message.success("这不是你的问题");
+if(result.code===0){
+  proxy.Message.error(result.msg);
 }
+  if(result.code===200){
     proxy.Message.success("删除成功");
-    await router.push("/");
 
-  ;
+  }
+  await router.push("/");
+
+
 };
 
 const editQuestion = () => {
@@ -370,6 +372,7 @@ const delAnswer = async (answerId, index) => {
     },
   });
   if (!result) return;
+  await getAnswerList(route.params.questionId);
   proxy.Message.success("删除成功");
 
 };
@@ -380,10 +383,10 @@ const delAnswer = async (answerId, index) => {
 // 获取评论的方法
 const getComment = async () => {};
 
-onMounted(() => {//432
+onMounted(() => {
   getQuestionDetail(route.params.questionId);
   getAnswerList(route.params.questionId);
-  //currentUserInfo.value = store.loginUserInfo;
+  currentUserInfo.value = store.loginUserInfo;
 });
 </script>
 

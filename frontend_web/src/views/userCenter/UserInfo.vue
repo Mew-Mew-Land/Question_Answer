@@ -58,7 +58,7 @@
                 </div>
                 <div class="userInfo">
                   <div class="author">
-                    作者名
+                    作者名:{{ item.accountName }}
                     <el-divider direction="vertical"></el-divider>
                     {{ item.question }}
                   </div>
@@ -108,7 +108,7 @@ const getUserInfo = async (userId) => {
   let result = await proxy.Request({
     url: "/account/Info",
     params:{
-      userId:userId,
+      id:userId,
     }
   });
   if (!result) return;
@@ -154,7 +154,7 @@ const getPostByUser = async (type) => {
 //       "viewNum": 0
 //   }
 // ]
-  if (type == 0) {
+
     let result = await proxy.Request({
       url: "/QuesListByUser",
       params: {
@@ -165,8 +165,7 @@ const getPostByUser = async (type) => {
     userPostList.value = result.data;
 
     state.value = true;
-  } else {
-  }
+
 };
 
 const editDialogRef = ref();
@@ -219,18 +218,22 @@ watch(
   (newVal, oldVal) => {
     // console.log(newVal);
     getUserInfo(newVal);
+    getPostByUser(newVal);
   },
   { immediate: true, deep: true }
 );
 
 watch(
-  () => activeName.value,
+  () => route.params.userId,
   (newVal, oldVal) => {
     // console.log(newVal);
     getPostByUser(newVal);
   },
   { immediate: true, deep: true }
 );
+
+
+
 </script>
 <style lang="scss">
 .user-penal {

@@ -1,5 +1,7 @@
 import axios from "axios";
 import Message from "./Message.utils";
+import * as proxy from "@element-plus/icons-vue";
+import {ElMessage} from "element-plus";
 
 const contentTypeJson = "application/json";
 
@@ -39,10 +41,8 @@ instance.interceptors.response.use(
         return responseData;
       } else {
         // 状态码不为200时，调用错误回调函数处理错误
-        if (errorCallback) {
-          errorCallback(responseData);
-        }
-        return Promise.reject({ showError: showError, msg: responseData.info });
+          ElMessage.error(responseData.msg);
+
       }
     },
     (error) => {

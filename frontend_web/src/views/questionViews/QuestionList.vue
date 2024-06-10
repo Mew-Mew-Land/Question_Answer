@@ -33,7 +33,7 @@
               </div>
               <div class="userInfo">
                 <div class="author">
-                  作者：{{ item.username }}
+                  作者：{{ item.accountName }}
                   <el-divider direction="vertical"></el-divider>
                   {{ item.updateTime }}
                 </div>
@@ -51,20 +51,21 @@
 
     <div class="faq-side">
       <!-- 创作中心区域 -->
+      <!-- 创作中心区域 -->
       <el-card class="box-card" shadow="never">
         <template #header>
           <div class="clearfix">
             <span class="card-header"><b><h2>创作中心</h2></b></span>
           </div>
         </template>
-        <el-button-group class="button-group">
-          <el-button type="info">
+        <el-button-group class="button-group" >
+          <el-button type="info" @click="newPost()">
             <i class="iconfont icon-wancheng1"></i>
           </el-button>
-          <el-button type="info">
+          <el-button type="info" @click="newPost()">
             <i class="iconfont icon-bianjiwenzhang_huaban"></i>
           </el-button>
-          <el-button type="info">
+          <el-button type="info" @click="newPost()">
             <i class="iconfont icon-wodewenzhang"></i>
           </el-button>
           <el-button type="info">
@@ -79,6 +80,7 @@
           <span>通知</span>
         </div>
       </el-card>
+
 
       <!-- 更多操作区域 -->
       <el-card class="box-card2" style="margin-top: 10px;" shadow="never">
@@ -126,7 +128,7 @@
 
 <script setup>
 import { reactive, watch, ref, getCurrentInstance, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
 
 import { useMainStore } from "../../stores/index";
 
@@ -200,10 +202,17 @@ const changeTab = (tab) => {
   activeTab.value = tab;
 };
 
-
+const newPost = () => {
+  router.push("/newPost");
+};
 onMounted(() => {
   // 初始获取问题列表
   getQuestionList(0);
+});
+onBeforeRouteUpdate((to, from, next) => {
+  // 每次路由更新时获取问题列表
+  getQuestionList(0);
+  next();
 });
 // 监视路由参数的变化
 watch(

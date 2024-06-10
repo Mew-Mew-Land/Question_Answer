@@ -152,7 +152,7 @@ const rules = reactive({
     { min: 3, max: 30, message: "邮箱只能是3-30位", trigger: "blur" },
     { validator: proxy.Validate.validateEmail, trigger: "blur" },
   ],
-  nickName: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+  accountName: [{ required: true, message: "请输入昵称", trigger: "blur" }],
 });
 
 
@@ -223,8 +223,9 @@ const login = async () => {
 const fetchUserInfo = async () => {
   try {
     const result = await proxy.Request({
-      url: "/account/Info",
+      url: "/account/myInfo",
       params: {
+
       },
     });
 

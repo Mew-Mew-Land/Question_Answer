@@ -20,12 +20,12 @@
               </div>
               <div class="userInfo">
                 <div class="author">
-                  作者名
+                  作者名{{ item.accountName }}
                   <el-divider direction="vertical"></el-divider>
                   {{ item.question }}
                 </div>
                 <span class="board">
-                  <RouterLink class="a-link" :to="`/faq/${item.classificationId}`">
+                      <RouterLink :to="`/faqDetail/${item.id}`" class="a-link">
                     查看详情
                   </RouterLink>
                 </span>
@@ -55,7 +55,7 @@ const searchQuestion = async () => {
   
 
   let result = await proxy.Request({
-    url: "/search",
+    url: "/home/searchQuestion",
     params: {
       keywords: route.params.keyword,
     },

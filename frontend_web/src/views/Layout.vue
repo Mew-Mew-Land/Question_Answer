@@ -200,24 +200,26 @@ const loginAndRegister = () => {
   const userId = ref(null);
 
   const toCenter = async () => {
-    try {
-      let result = await proxy.Request({
-        method: 'POST', // 如果是POST请求，需要明确指定
-        url: "/account/Info", // 确保使用的是完整的URL
-        params: {}
-      });
-
-      if (result && result.data) {
-        userId.value = result.data;
-      } else {
-        console.error('No data received from the server');
-      }
-    } catch (error) {
-      console.error('Error fetching account info:', error);
-    }
-    console.log(userId);
-    store.loginUserInfo = userId.value;
-    console.log(store.loginUserInfo);
+    // try {
+    //   let result = await proxy.Request({
+    //
+    //     url: "/account/Info", // 确保使用的是完整的URL
+    //     params: {
+    //       id:store.loginUserInfo.id
+    //     }
+    //   });
+    //
+    //   if (result && result.data) {
+    //     userId.value = result.data;
+    //   } else {
+    //     console.error('No data received from the server');
+    //   }
+    // } catch (error) {
+    //   console.error('Error fetching account info:', error);
+    // }
+    // console.log(userId);
+    // store.loginUserInfo = userId.value;
+    // console.log(store.loginUserInfo);
     router.push(`/user/${store.loginUserInfo.id}`);
   };
 
